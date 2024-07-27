@@ -17,7 +17,9 @@
    [:body {:style {:height "100%" :margin 0
                    :font-size "1.8rem"
                    :background-color blackish
-                   :padding "2rem"}}
+                   :padding-left "1rem"
+                   :padding-right "1rem"
+                   :font-family "serif"}}
     [:section {:style {:height "100%"
                        :display :flex
                        :flex-direction :column
@@ -45,7 +47,9 @@
    [:body {:style {:height "100%" :margin 0
                    :font-size "1.8rem"
                    :background-color bright-green
-                   :padding "2rem"}}
+                   :padding-left "1rem"
+                   :padding-right "1rem"
+                   :font-family "serif"}}
     [:section {:style {:height "100%"
                        :display :flex
                        :flex-direction :column
