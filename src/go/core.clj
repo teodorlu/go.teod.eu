@@ -8,7 +8,7 @@
 
 (def page
   [:html {:lang "en"}
-   [:head [:title "go, teodor, go"]]
+   [:head [:title "go!"]]
    [:body
     (principle "Balance." "Body ↔ Mind ↔ Emotions.")
     (principle "Habits for action" "get you started.")
@@ -19,9 +19,7 @@
 (defn handler [_req]
   {:status 200
    :headers {"Content-Type" "text/html; charset=utf-8"}
-   :body (str (hiccup/html
-                  (hiccup/raw "<!DOCTYPE html>")
-                page))})
+   :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>") page))})
 
 (defonce server (atom nil))
 
