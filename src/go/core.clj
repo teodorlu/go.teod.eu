@@ -3,24 +3,29 @@
    [org.httpkit.server :as httpkit]
    [hiccup2.core :as hiccup]))
 
-(hiccup/html [:div "It runs!"])
+(defn principle [title details]
+  [:p [:strong title] (when details (list  " " details))])
 
 (def page
   [:html {:lang "en"}
-   [:head [:title "go.teod.eu"]]
+   [:head [:title "go, teodor, go"]]
    [:body
-    [:h1 "Go"]
-    [:div "It runs."]]])
+    (principle "Balance." "Body ↔ Mind ↔ Emotions.")
+    (principle "Habits for action" "get you started.")
+    (principle "Creation & curiosity" "over consumption & passivity.")
+    (principle "Techne ≠ episteme." "Not the same thing.")
+    (principle "Rest or focus?" "Search for a balance.")]])
 
 (defn handler [_req]
   {:status 200
-   :headers {"Content-Type" "text/html"}
+   :headers {"Content-Type" "text/html; charset=utf-8"}
    :body (str (hiccup/html
                   (hiccup/raw "<!DOCTYPE html>")
                 page))})
 
 (defonce server (atom nil))
 
+#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
 (defn serve! [_]
   (swap! server
          (fn [old-server]
