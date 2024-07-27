@@ -16,7 +16,8 @@
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
    [:body {:style {:height "100%" :margin 0
                    :font-size "1.8rem"
-                   :background-color blackish}}
+                   :background-color blackish
+                   :padding "2rem"}}
     [:section {:style {:height "100%"
                        :display :flex
                        :flex-direction :column
@@ -43,7 +44,8 @@
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
    [:body {:style {:height "100%" :margin 0
                    :font-size "1.8rem"
-                   :background-color bright-green}}
+                   :background-color bright-green
+                   :padding "2rem"}}
     [:section {:style {:height "100%"
                        :display :flex
                        :flex-direction :column
