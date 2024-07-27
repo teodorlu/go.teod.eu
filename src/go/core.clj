@@ -6,7 +6,7 @@
 (defn principle [title details]
   [:p [:strong title] (when details (list  " " details))])
 
-(def page
+(defn page [_]
   [:html {:lang "en"}
    [:head [:title "go!"]]
    [:body
@@ -16,10 +16,30 @@
     (principle "Techne ≠ episteme." "Not the same thing.")
     (principle "Rest or focus?" "Search for a balance.")]])
 
-(defn handler [_req]
-  {:status 200
-   :headers {"Content-Type" "text/html; charset=utf-8"}
-   :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>") page))})
+(defn other [_]
+  [:html {:lang "en"}
+   [:head [:title "other"]]
+   [:body "other"]])
+
+(def routes
+  {"/" page
+   "/other" other})
+
+(defn root-handler [req]
+  (when (not= "/clerk_service_worker.js" (:uri req))
+    (tap> req))
+  (if-let [handler  (get routes (:uri req))]
+    (if-let [response (handler req)]
+      {:status 200
+       :headers {"Content-Type" "text/html; charset=utf-8"}
+       :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>") response))}
+      {:status 500
+       :headers {"Content-Type" "text/html; charset=utf-8"}
+       :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>") "server error"))})
+    {:status 404
+     :headers {"Content-Type" "text/html; charset=utf-8"}
+     :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>")
+                  [:html [:body "Page not found: " (:uri req)]]))}))
 
 (defonce server (atom nil))
 
@@ -29,7 +49,7 @@
          (fn [old-server]
            (when old-server
              (httpkit/server-stop! old-server))
-           (httpkit/run-server #'handler
+           (httpkit/run-server #'root-handler
                                {:port 7777
                                 :legacy-return-value? false}))))
 
