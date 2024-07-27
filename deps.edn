@@ -2,6 +2,7 @@
  ["src"]
  :deps
  {hiccup/hiccup {:mvn/version "2.0.0-RC3"}
-  http-kit/http-kit {:mvn/version "2.8.0"}}
+  http-kit/http-kit {:mvn/version "2.8.0"}
+  io.github.nextjournal/clerk {:mvn/version "0.16.1016"}}
  :aliases
  {:nextjournal/garden {:exec-fn go.core/serve!}}}
