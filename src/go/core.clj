@@ -1,13 +1,23 @@
 (ns go.core
   (:require
-   [org.httpkit.server :as httpkit]))
+   [org.httpkit.server :as httpkit]
+   [hiccup2.core :as hiccup]))
+
+(hiccup/html [:div "It runs!"])
+
+(def page
+  [:html {:lang "en"}
+   [:head [:title "go.teod.eu"]]
+   [:body
+    [:h1 "Go"]
+    [:div "It runs."]]])
 
 (defn handler [_req]
   {:status 200
    :headers {"Content-Type" "text/html"}
-   :body "It runs!"})
-
-(defonce server (atom nil))
+   :body (str (hiccup/html
+                  (hiccup/raw "<!DOCTYPE html>")
+                page))})
 
 (defn serve! [_]
   (swap! server
