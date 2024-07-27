@@ -19,6 +19,8 @@
                   (hiccup/raw "<!DOCTYPE html>")
                 page))})
 
+(defonce server (atom nil))
+
 (defn serve! [_]
   (swap! server
          (fn [old-server]
