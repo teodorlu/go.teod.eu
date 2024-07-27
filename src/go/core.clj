@@ -1,7 +1,8 @@
 (ns go.core
   (:require
-   [org.httpkit.server :as httpkit]
-   [hiccup2.core :as hiccup]))
+   [clojure.string :as str]
+   [hiccup2.core :as hiccup]
+   [org.httpkit.server :as httpkit]))
 
 (defn principle [title details]
   [:p [:strong title] (when details (list  " " details))])
@@ -24,15 +25,21 @@
    [:head
     [:title "🌊"]
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
-   [:body {:style {:height "100%" :margin 0}}
+   [:body {:style {:height "100%" :margin 0
+                   :font-size "1.8rem"}}
     [:section {:style {:height "100%"
                        :display :flex
                        :flex-direction :column
-                       :gap "1em"
+                       :gap "2rem"
                        :align-items :center
                        :justify-content :center}}
-     [:div "PRINCIPLE"]
-     [:div "ANOTHER PRINCIPLE"]]]])
+     (let [principles (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
+                                    "Habits for action" "get you started."
+                                    "Creation & curiosity" "over consumption & passivity."
+                                    "Techne ≠ episteme." "Not the same thing."
+                                    "Rest or focus?" "Search for a balance between body, mind and emotions."])]
+       (for [[title details] principles]
+         [:div (str/upper-case title) " " details]))]]])
 
 (def routes
   {"/" #'page
