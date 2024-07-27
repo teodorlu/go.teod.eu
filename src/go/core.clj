@@ -2,22 +2,38 @@
   (:require
    [clojure.string :as str]
    [hiccup2.core :as hiccup]
-   [org.httpkit.server :as httpkit]))
+   [org.httpkit.server :as httpkit]
+   [go.path :as path]))
 
-(defn principle [title details]
-  [:p [:strong title] (when details (list  " " details))])
+(def blackish "black")
+(def bright-green "hsl(124, 100%, 88%)")
 
 (defn page [_]
-  [:html {:lang "en"}
+  [:html {:lang "en"
+          :style {:height "100%"}}
    [:head
-    [:title "go!"]
+    [:title "🌊"]
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
-   [:body
-    (principle "Balance." "Body ↔ Mind ↔ Emotions.")
-    (principle "Habits for action" "get you started.")
-    (principle "Creation & curiosity" "over consumption & passivity.")
-    (principle "Techne ≠ episteme." "Not the same thing.")
-    (principle "Rest or focus?" "Search for a balance.")]])
+   [:body {:style {:height "100%" :margin 0
+                   :font-size "1.8rem"
+                   :background-color blackish}}
+    [:section {:style {:height "100%"
+                       :display :flex
+                       :flex-direction :column
+                       :gap "2rem"
+                       :align-items :center
+                       :justify-content :center
+                       :color bright-green}}
+     (let [principles (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
+                                    "Habits for action" "get you started."
+                                    "Creation & curiosity" "over consumption & passivity."
+                                    "Techne ≠ episteme." "Not the same thing."
+                                    "Rest or focus?" "Search for a balance between body, mind and emotions."])]
+       (for [[title details] principles]
+         [:div (str/upper-case title) " " details]))
+     [:div [:a {:href path/other
+                :style {:color bright-green}}
+            path/other]]]]])
 
 (defn other [_]
   [:html {:lang "en"
@@ -26,24 +42,29 @@
     [:title "🌊"]
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
    [:body {:style {:height "100%" :margin 0
-                   :font-size "1.8rem"}}
+                   :font-size "1.8rem"
+                   :background-color bright-green}}
     [:section {:style {:height "100%"
                        :display :flex
                        :flex-direction :column
                        :gap "2rem"
                        :align-items :center
-                       :justify-content :center}}
+                       :justify-content :center
+                       :color blackish}}
      (let [principles (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
                                     "Habits for action" "get you started."
                                     "Creation & curiosity" "over consumption & passivity."
                                     "Techne ≠ episteme." "Not the same thing."
                                     "Rest or focus?" "Search for a balance between body, mind and emotions."])]
        (for [[title details] principles]
-         [:div (str/upper-case title) " " details]))]]])
+         [:div (str/upper-case title) " " details]))
+     [:div [:a {:href path/page
+                :style {:color blackish}}
+            path/page]]]]])
 
 (def routes
-  {"/" #'page
-   "/other" #'other})
+  {path/page #'page
+   path/other #'other})
 
 (defn root-handler [req]
   (when (not= "/clerk_service_worker.js" (:uri req))
