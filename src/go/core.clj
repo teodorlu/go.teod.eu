@@ -16,11 +16,12 @@
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
    [:body {:style {:height "100%" :margin 0
                    :font-size "1.8rem"
-                   :background-color blackish
                    :padding-left "1rem"
                    :padding-right "1rem"
+                   :background-color blackish
                    :font-family "serif"}}
     [:section {:style {:height "100%"
+                       :text-align "center"
                        :display :flex
                        :flex-direction :column
                        :gap "2rem"
@@ -51,6 +52,7 @@
                    :padding-right "1rem"
                    :font-family "serif"}}
     [:section {:style {:height "100%"
+                       :text-align "center"
                        :display :flex
                        :flex-direction :column
                        :gap "2rem"
