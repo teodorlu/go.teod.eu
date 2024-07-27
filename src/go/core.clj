@@ -8,7 +8,9 @@
 
 (defn page [_]
   [:html {:lang "en"}
-   [:head [:title "go!"]]
+   [:head
+    [:title "go!"]
+    [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
    [:body
     (principle "Balance." "Body ↔ Mind ↔ Emotions.")
     (principle "Habits for action" "get you started.")
@@ -17,13 +19,24 @@
     (principle "Rest or focus?" "Search for a balance.")]])
 
 (defn other [_]
-  [:html {:lang "en"}
-   [:head [:title "other"]]
-   [:body "other"]])
+  [:html {:lang "en"
+          :style {:height "100%"}}
+   [:head
+    [:title "🌊"]
+    [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
+   [:body {:style {:height "100%" :margin 0}}
+    [:section {:style {:height "100%"
+                       :display :flex
+                       :flex-direction :column
+                       :gap "1em"
+                       :align-items :center
+                       :justify-content :center}}
+     [:div "PRINCIPLE"]
+     [:div "ANOTHER PRINCIPLE"]]]])
 
 (def routes
-  {"/" page
-   "/other" other})
+  {"/" #'page
+   "/other" #'other})
 
 (defn root-handler [req]
   (when (not= "/clerk_service_worker.js" (:uri req))
