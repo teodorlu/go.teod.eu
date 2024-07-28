@@ -8,11 +8,15 @@
 (def blackish "black")
 (def bright-green "hsl(124, 100%, 88%)")
 
-(defn page [_]
+(defn title [req]
+  (str "🌊" (when (= "localhost" (:server-name req))
+              " · on localhost")))
+
+(defn page [req]
   [:html {:lang "en"
           :style {:height "100%"}}
    [:head
-    [:title "🌊"]
+    [:title (title req)]
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
    [:body {:style {:height "100%" :margin 0
                    :font-size "1.8rem"
@@ -39,11 +43,11 @@
                 :style {:color bright-green}}
             path/other]]]]])
 
-(defn other [_]
+(defn other [req]
   [:html {:lang "en"
           :style {:height "100%"}}
    [:head
-    [:title "🌊"]
+    [:title (title req)]
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
    [:body {:style {:height "100%" :margin 0
                    :font-size "1.8rem"
