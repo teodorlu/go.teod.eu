@@ -56,7 +56,8 @@
                          "Techne ≠ episteme." "Not the same thing."
                          "Rest or focus?" "Search for a balance between body, mind and emotions."])]
        [:div (str/upper-case principle-core) " " principle-extras])
-     [:div {:style {:font-size "1.2rem"}}
+     [:div {:style {:font-size "1.2rem"
+                    :color (:theme/unobtrusive theme)}}
       (->> [{:linktext path/page :href path/page}
             {:linktext path/other :href path/other}
             {:linktext "play.teod.eu" :href path/play-teod-eu}]
