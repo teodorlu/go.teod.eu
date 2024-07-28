@@ -5,25 +5,33 @@
    [org.httpkit.server :as httpkit]
    [go.path :as path]))
 
-(def blackish "black")
 (def bright-green "hsl(124, 100%, 88%)")
+(def blackish "black")
 
-(defn title [req]
+(def theme-1 {:theme/primary-color bright-green
+              :theme/secondary-color blackish})
+
+(def theme-2 {:theme/primary-color blackish
+              :theme/secondary-color bright-green})
+
+(defn infer-title [req]
   (get {"localhost" "🩵"}
        (:server-name req)
        "🌊 🌊 🌊"))
 
-(defn page [req]
+(defn principles-page [title theme]
+  (assert (:theme/primary-color theme))
+  (assert (:theme/secondary-color theme))
   [:html {:lang "en"
           :style {:height "100%"}}
    [:head
-    [:title (title req)]
+    [:title title]
     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
    [:body {:style {:height "100%" :margin 0
                    :font-size "1.8rem"
                    :padding-left "1rem"
                    :padding-right "1rem"
-                   :background-color blackish
+                   :background-color (:theme/secondary-color theme)
                    :font-family "serif"}}
     [:section {:style {:height "100%"
                        :text-align "center"
@@ -32,14 +40,14 @@
                        :gap "2rem"
                        :align-items :center
                        :justify-content :center
-                       :color bright-green}}
-     (let [principles (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
-                                    "Habits for action" "get you started."
-                                    "Creation & curiosity" "over consumption & passivity."
-                                    "Techne ≠ episteme." "Not the same thing."
-                                    "Rest or focus?" "Search for a balance between body, mind and emotions."])]
-       (for [[title details] principles]
-         [:div (str/upper-case title) " " details]))
+                       :color (:theme/primary-color theme)}}
+     (for [[principle-core principle-extras]
+           (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
+                         "Habits for action" "get you started."
+                         "Creation & curiosity" "over consumption & passivity."
+                         "Techne ≠ episteme." "Not the same thing."
+                         "Rest or focus?" "Search for a balance between body, mind and emotions."])]
+       [:div (str/upper-case principle-core) " " principle-extras])
      [:div
       [:a {:href path/other
            :style {:color bright-green}}
@@ -49,36 +57,13 @@
            :style {:color bright-green}}
        "play.teod.eu"]]]]])
 
+(defn page [req]
+  (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
+                   theme-1))
+
 (defn other [req]
-  [:html {:lang "en"
-          :style {:height "100%"}}
-   [:head
-    [:title (title req)]
-    [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
-   [:body {:style {:height "100%" :margin 0
-                   :font-size "1.8rem"
-                   :background-color bright-green
-                   :padding-left "1rem"
-                   :padding-right "1rem"
-                   :font-family "serif"}}
-    [:section {:style {:height "100%"
-                       :text-align "center"
-                       :display :flex
-                       :flex-direction :column
-                       :gap "2rem"
-                       :align-items :center
-                       :justify-content :center
-                       :color blackish}}
-     (let [principles (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
-                                    "Habits for action" "get you started."
-                                    "Creation & curiosity" "over consumption & passivity."
-                                    "Techne ≠ episteme." "Not the same thing."
-                                    "Rest or focus?" "Search for a balance between body, mind and emotions."])]
-       (for [[title details] principles]
-         [:div (str/upper-case title) " " details]))
-     [:div [:a {:href path/page
-                :style {:color blackish}}
-            path/page]]]]])
+  (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
+                   theme-1))
 
 (def routes
   {path/page #'page
