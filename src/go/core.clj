@@ -7,16 +7,29 @@
 
 (def bright-green "hsl(124, 100%, 88%)")
 (def blackish "black")
+(def greyish "hsl(108, 5%, 40%);")
+
 
 (def theme-1 {:theme/primary-color bright-green
-              :theme/secondary-color blackish})
+              :theme/secondary-color blackish
+              :theme/unobtrusive greyish})
 
 (def theme-2 {:theme/primary-color blackish
-              :theme/secondary-color bright-green})
+              :theme/secondary-color bright-green
+              :theme/unobtrusive greyish})
+
+(def all-themes [theme-1 theme-2])
+
+(defn valid-theme? [theme]
+  (every? #(contains? theme %)
+          [:theme/primary-color
+           :theme/secondary-color
+           :theme/unobtrusive]))
+
+(assert (every? valid-theme? all-themes) "Crash early on invalid themes.")
 
 (defn principles-page [title theme]
-  (assert (:theme/primary-color theme))
-  (assert (:theme/secondary-color theme))
+  (assert (valid-theme? theme))
   [:html {:lang "en"
           :style {:height "100%"}}
    [:head
@@ -43,14 +56,15 @@
                          "Techne ≠ episteme." "Not the same thing."
                          "Rest or focus?" "Search for a balance between body, mind and emotions."])]
        [:div (str/upper-case principle-core) " " principle-extras])
-     [:div
-      [:a {:href path/other
-           :style {:color bright-green}}
-       path/other]
-      " · "
-      [:a {:href path/play-teod-eu
-           :style {:color bright-green}}
-       "play.teod.eu"]]]]])
+     [:div {:style {:font-size "1.2rem"}}
+      (->> [{:linktext path/page :href path/page}
+            {:linktext path/other :href path/other}
+            {:linktext "play.teod.eu" :href path/play-teod-eu}]
+           (map (fn [{:keys [linktext href]}]
+                  [:a {:href href
+                       :style {:color (:theme/unobtrusive theme)}}
+                   linktext]))
+           (interpose " · "))]]]])
 
 (defn page-index [req]
   (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
