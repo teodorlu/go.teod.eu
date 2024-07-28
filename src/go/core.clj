@@ -58,7 +58,7 @@
 
 (defn page-other [req]
   (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
-                   theme-1))
+                   theme-2))
 
 (def routes
   {path/page #'page-index
