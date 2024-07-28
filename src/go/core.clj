@@ -52,22 +52,22 @@
            :style {:color bright-green}}
        "play.teod.eu"]]]]])
 
-(defn page [req]
+(defn page-index [req]
   (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
                    theme-1))
 
-(defn other [req]
+(defn page-other [req]
   (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
                    theme-1))
 
 (def routes
-  {path/page #'page
-   path/other #'other})
+  {path/page #'page-index
+   path/other #'page-other})
 
 (defn root-handler [req]
   (when (not= "/clerk_service_worker.js" (:uri req))
     (tap> req))
-  (if-let [handler  (get routes (:uri req))]
+  (if-let [handler (get routes (:uri req))]
     (if-let [response (handler req)]
       {:status 200
        :headers {"Content-Type" "text/html; charset=utf-8"}
