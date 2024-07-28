@@ -8,9 +8,7 @@
 (def blackish "black")
 (def bright-green "hsl(124, 100%, 88%)")
 
-(defn title [req]
-  (str "🌊" (when (= "localhost" (:server-name req))
-              " · on localhost")))
+(defn title [req] (get {"localhost" "🩵"} (:server-name req) "🌊"))
 
 (defn page [req]
   [:html {:lang "en"
