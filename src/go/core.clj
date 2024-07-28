@@ -8,7 +8,10 @@
 (def blackish "black")
 (def bright-green "hsl(124, 100%, 88%)")
 
-(defn title [req] (get {"localhost" "🩵"} (:server-name req) "🌊"))
+(defn title [req]
+  (get {"localhost" "🩵"}
+       (:server-name req)
+       "🌊 🌊 🌊"))
 
 (defn page [req]
   [:html {:lang "en"
