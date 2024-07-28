@@ -8,20 +8,24 @@
 (def bright-green "hsl(124, 100%, 88%)")
 (def blackish "black")
 (def greyish "hsl(108, 5%, 40%);")
+(def bright-blue "rgb(109 219 253)")
 
 (defn valid-theme? [theme]
   (every? #(contains? theme %)
           [:theme/primary-color
            :theme/secondary-color
-           :theme/unobtrusive]))
+           :theme/unobtrusive
+           :theme/emphasis]))
 
 (def theme-1 {:theme/primary-color bright-green
               :theme/secondary-color blackish
-              :theme/unobtrusive greyish})
+              :theme/unobtrusive greyish
+              :theme/emphasis bright-blue})
 
 (def theme-2 {:theme/primary-color blackish
               :theme/secondary-color bright-green
-              :theme/unobtrusive greyish})
+              :theme/unobtrusive greyish
+              :theme/emphasis bright-blue})
 
 (assert (every? valid-theme? [theme-1 theme-2]))
 
@@ -52,7 +56,9 @@
                          "Creation & curiosity" "over consumption & passivity."
                          "Techne ≠ episteme." "Not the same thing."
                          "Rest or focus?" "Search for a balance between body, mind and emotions."])]
-       [:div (str/upper-case principle-core) " " principle-extras])
+       [:div [:span {:style {:color (:theme/emphasis theme )}}
+              (str/upper-case principle-core)]
+        " " principle-extras])
      [:div {:style {:font-size "1.2rem"
                     :color (:theme/unobtrusive theme)}}
       (->> [{:linktext path/page :href path/page}
@@ -72,25 +78,41 @@
   (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
                    theme-2))
 
+(defn icon-web [_]
+  {:status 200 :body "icon web"})
+
 (def routes
   {path/page #'page-index
-   path/other #'page-other})
+   path/other #'page-other
+   path/icon-web #'icon-web})
+
+(defn render [content]
+  (cond
+    ;; Vectors are Hiccup HTML
+    (vector? content)
+    {:status 200
+     :headers {"Content-Type" "text/html; charset=utf-8"}
+     :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>") content))}
+
+    ;; Maps are ring responses
+    (map? content)
+    map))
+
+(defn not-found [description]
+  {:status 404
+   :headers {"Content-Type" "text/html; charset=utf-8"}
+   :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>")
+                [:html [:body "Page not found: " description]]))})
 
 (defn root-handler [req]
   (when (not= "/clerk_service_worker.js" (:uri req))
     (tap> req))
   (if-let [handler (get routes (:uri req))]
-    (if-let [response (handler req)]
-      {:status 200
-       :headers {"Content-Type" "text/html; charset=utf-8"}
-       :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>") response))}
-      {:status 500
-       :headers {"Content-Type" "text/html; charset=utf-8"}
-       :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>") "server error"))})
-    {:status 404
-     :headers {"Content-Type" "text/html; charset=utf-8"}
-     :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>")
-                  [:html [:body "Page not found: " (:uri req)]]))}))
+    (let [response (-> req handler render)]
+      (if response
+        response
+        (not-found (:uri req))))
+    (not-found (:uri req))))
 
 (defonce server (atom nil))
 
