@@ -40,9 +40,14 @@
                                     "Rest or focus?" "Search for a balance between body, mind and emotions."])]
        (for [[title details] principles]
          [:div (str/upper-case title) " " details]))
-     [:div [:a {:href path/other
-                :style {:color bright-green}}
-            path/other]]]]])
+     [:div
+      [:a {:href path/other
+           :style {:color bright-green}}
+       path/other]
+      " · "
+      [:a {:href path/play-teod-eu
+           :style {:color bright-green}}
+       "play.teod.eu"]]]]])
 
 (defn other [req]
   [:html {:lang "en"
