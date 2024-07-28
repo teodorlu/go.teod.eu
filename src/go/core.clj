@@ -9,6 +9,11 @@
 (def blackish "black")
 (def greyish "hsl(108, 5%, 40%);")
 
+(defn valid-theme? [theme]
+  (every? #(contains? theme %)
+          [:theme/primary-color
+           :theme/secondary-color
+           :theme/unobtrusive]))
 
 (def theme-1 {:theme/primary-color bright-green
               :theme/secondary-color blackish
@@ -18,15 +23,7 @@
               :theme/secondary-color bright-green
               :theme/unobtrusive greyish})
 
-(def all-themes [theme-1 theme-2])
-
-(defn valid-theme? [theme]
-  (every? #(contains? theme %)
-          [:theme/primary-color
-           :theme/secondary-color
-           :theme/unobtrusive]))
-
-(assert (every? valid-theme? all-themes) "Crash early on invalid themes.")
+(assert (every? valid-theme? [theme-1 theme-2]))
 
 (defn principles-page [title theme]
   (assert (valid-theme? theme))
