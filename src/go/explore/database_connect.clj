@@ -9,8 +9,4 @@
          :dbname (str (fs/file (System/getenv "GARDEN_STORAGE") "db.sqlite"))})
 (def ds (next.jdbc/get-datasource db))
 
-123
-
-(next.jdbc/execute!
- ds
- ["SELECT 44 * 455 as result"])
+(next.jdbc/execute! ds ["SELECT 44 * 455 as result"])
