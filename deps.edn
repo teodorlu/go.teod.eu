@@ -8,4 +8,8 @@
   io.github.nextjournal/clerk {:mvn/version "0.16.1016"}
   migratus/migratus {:mvn/version "1.5.6"}}
  :aliases
- {:nextjournal/garden {:exec-fn go.core/serve!}}}
+ {:nextjournal/garden {:exec-fn go.core/serve!
+                       :jvm-opts [;; Datalevin requires extra JVM options to run
+                                  ;; https://cljdoc.org/d/datalevin/datalevin/0.9.8/doc/installation
+                                  "--add-opens=java.base/java.nio=ALL-UNNAMED"
+                                  "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"]}}}
