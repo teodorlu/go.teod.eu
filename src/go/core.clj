@@ -14,11 +14,6 @@
 (def theme-2 {:theme/primary-color blackish
               :theme/secondary-color bright-green})
 
-(defn infer-title [req]
-  (get {"localhost" "🩵"}
-       (:server-name req)
-       "🌊 🌊 🌊"))
-
 (defn principles-page [title theme]
   (assert (:theme/primary-color theme))
   (assert (:theme/secondary-color theme))
