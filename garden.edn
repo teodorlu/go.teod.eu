@@ -1,5 +1,1 @@
-{:project "go-teod-eu"
-
- ;; Datomic Local for example requires exclusive access to your persistent storage
- ;; https://docs.apps.garden/
- :deploy-strategy :restart}
+{:project "go-teod-eu"}
