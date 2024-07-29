@@ -100,9 +100,9 @@
                      :margin-top "1em"
                      :color (:theme/unobtrusive theme)}}
        (->> [{:linktext path/index :href path/index}
-             {:linktext path/other :href path/other}
-             {:linktext path/other2 :href path/other2}
-             {:linktext path/other3 :href path/other3}
+             ;; {:linktext path/other :href path/other}
+             ;; {:linktext path/other2 :href path/other2}
+             ;; {:linktext path/other3 :href path/other3}
              {:linktext path/other4 :href path/other4}
              {:linktext path/other6 :href path/other6}
              {:linktext "play.teod.eu" :href path/play-teod-eu}]
