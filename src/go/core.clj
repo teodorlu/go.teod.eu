@@ -121,7 +121,8 @@
                     opts)))
 
 (defn page-index [req]
-  (page req "" theme-main))
+  (page req "" theme-main
+        {:section-style/overrides section-style-left-adjust}))
 
 (defn page-other [req]
   (page req " other" theme-other))
