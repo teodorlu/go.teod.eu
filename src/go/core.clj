@@ -6,6 +6,7 @@
    [go.path :as path]))
 
 (def bright-green "hsl(124, 100%, 88%)")
+(def brighter-green "hsl(122.67 89% 94%)")
 (def blackish "black")
 (def greyish "hsl(108, 5%, 40%);")
 (def bright-blue "rgb(109 219 253)")
@@ -19,22 +20,31 @@
            :theme/unobtrusive
            :theme/emphasis]))
 
-(def theme-1 {:theme/primary-color bright-green
-              :theme/secondary-color blackish
-              :theme/unobtrusive greyish
-              :theme/emphasis bright-blue})
+(def theme-main
+  {:theme/primary-color bright-green
+   :theme/secondary-color blackish
+   :theme/unobtrusive greyish
+   :theme/emphasis bright-blue})
 
-(def theme-2 {:theme/primary-color blackish
-              :theme/secondary-color bright-green
-              :theme/unobtrusive greyish
-              :theme/emphasis dark-blue})
+(def theme-other
+  {:theme/primary-color blackish
+   :theme/secondary-color bright-green
+   :theme/unobtrusive greyish
+   :theme/emphasis crimson})
 
-(def theme-3 {:theme/primary-color blackish
-              :theme/secondary-color bright-green
-              :theme/unobtrusive greyish
-              :theme/emphasis crimson})
+(def theme-other-crimson
+  {:theme/primary-color blackish
+   :theme/secondary-color brighter-green
+   :theme/unobtrusive greyish
+   :theme/emphasis crimson})
 
-(assert (every? valid-theme? [theme-1 theme-2 theme-3]))
+(def theme-other-brighter
+  {:theme/primary-color blackish
+   :theme/secondary-color brighter-green
+   :theme/unobtrusive greyish
+   :theme/emphasis dark-blue})
+
+(assert (every? valid-theme? [theme-main theme-other theme-other-crimson]))
 
 (defn principles-page [title theme]
   (assert (valid-theme? theme))
@@ -71,6 +81,7 @@
       (->> [{:linktext path/index :href path/index}
             {:linktext path/other :href path/other}
             {:linktext path/other2 :href path/other2}
+            {:linktext path/other3 :href path/other3}
             {:linktext "play.teod.eu" :href path/play-teod-eu}]
            (map (fn [{:keys [linktext href]}]
                   [:a {:href href
@@ -78,17 +89,15 @@
                    linktext]))
            (interpose " · "))]]]])
 
-(defn page-index [req]
-  (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
-                   theme-1))
+(defn page [req title-suffix theme]
+  (principles-page (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
+                        title-suffix)
+                   theme))
 
-(defn page-other [req]
-  (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊 other")
-                   theme-2))
-
-(defn page-other2 [req]
-  (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊 other 2")
-                   theme-3))
+(defn page-index [req] (page req "" theme-main))
+(defn page-other [req] (page req " other" theme-other))
+(defn page-other2 [req] (page req " other 2" theme-other-crimson))
+(defn page-other3 [req] (page req " other 3" theme-other-brighter))
 
 (defn icon-web [_]
   {:status 200 :body "icon web"})
@@ -97,7 +106,8 @@
   {path/icon-web #'icon-web
    path/index #'page-index
    path/other #'page-other
-   path/other2 #'page-other2})
+   path/other2 #'page-other2
+   path/other3 #'page-other3})
 
 (defn render [content]
   (cond
