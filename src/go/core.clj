@@ -95,7 +95,6 @@
              {:linktext path/other2 :href path/other2}
              {:linktext path/other3 :href path/other3}
              {:linktext path/other4 :href path/other4}
-             {:linktext path/other5 :href path/other5}
              {:linktext "play.teod.eu" :href path/play-teod-eu}]
             (map (fn [{:keys [linktext href]}]
                    [:a {:href href
