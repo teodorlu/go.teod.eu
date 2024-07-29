@@ -10,6 +10,7 @@
 (def greyish "hsl(108, 5%, 40%);")
 (def bright-blue "rgb(109 219 253)")
 (def dark-blue "rgb(0, 91, 119)")
+(def crimson "hsl(19, 100%, 44%)")
 
 (defn valid-theme? [theme]
   (every? #(contains? theme %)
@@ -26,7 +27,7 @@
 (def theme-2 {:theme/primary-color blackish
               :theme/secondary-color bright-green
               :theme/unobtrusive greyish
-              :theme/emphasis dark-blue})
+              :theme/emphasis crimson})
 
 (assert (every? valid-theme? [theme-1 theme-2]))
 
