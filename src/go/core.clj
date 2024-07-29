@@ -46,58 +46,90 @@
 
 (assert (every? valid-theme? [theme-main theme-other theme-other-crimson]))
 
-(defn principles-page [title theme]
-  (assert (valid-theme? theme))
-  [:html {:lang "en"
-          :style {:height "100%"}}
-   [:head
-    [:title title]
-    [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
-   [:body {:style {:height "100%" :margin 0
-                   :font-size "1.8rem"
-                   :padding-left "1rem"
-                   :padding-right "1rem"
-                   :background-color (:theme/secondary-color theme)
-                   :font-family "serif"}}
-    [:section {:style {:height "100%"
-                       :text-align "center"
-                       :display :flex
-                       :flex-direction :column
-                       :gap "2rem"
-                       :align-items :center
-                       :justify-content :center
-                       :color (:theme/primary-color theme)}}
-     (for [[principle-core principle-extras]
-           (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
-                         "Habits for action" "get you started."
-                         "Creation & curiosity" "over consumption & passivity."
-                         "Techne ≠ episteme." "Not the same thing."
-                         "Rest or focus?" "Search for a balance between body, mind and emotions."])]
-       [:div [:span {:style {:color (:theme/emphasis theme )}}
-              (str/upper-case principle-core)]
-        " " principle-extras])
-     [:div {:style {:font-size "1.2rem"
-                    :color (:theme/unobtrusive theme)}}
-      (->> [{:linktext path/index :href path/index}
-            {:linktext path/other :href path/other}
-            {:linktext path/other2 :href path/other2}
-            {:linktext path/other3 :href path/other3}
-            {:linktext "play.teod.eu" :href path/play-teod-eu}]
-           (map (fn [{:keys [linktext href]}]
-                  [:a {:href href
-                       :style {:color (:theme/unobtrusive theme)}}
-                   linktext]))
-           (interpose " · "))]]]])
+(def section-style-center
+  "Center text in sections"
+  {:text-align :center :justify-content :center})
+(def section-style-left-adjust
+  "Left adjust text in sections"
+  {})
+(def section-style-paragraph-indented-text
+  "Left adjust text in sections, indenting text after first line"
+  {:text-indent "3em hanging"})
 
-(defn page [req title-suffix theme]
-  (principles-page (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
-                        title-suffix)
-                   theme))
+(defn principles-page
+  ([title theme]
+   (principles-page title theme {}))
+  ([title theme opts]
+   (assert (valid-theme? theme))
+   [:html {:lang "en"
+           :style {:height "100%"}}
+    [:head
+     [:title title]
+     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
+    [:body {:style {:height "100%" :margin 0
+                    :font-size "1.8rem"
+                    :padding-left "1rem"
+                    :padding-right "1rem"
+                    :background-color (:theme/secondary-color theme)
+                    :font-family "serif"}}
+     [:section {:style (merge {:height "100%"
+                               :display :flex
+                               :flex-direction :column
+                               :gap "2rem"
+                               :justify-content :center
+                               :color (:theme/primary-color theme)}
+                              (:section-style/overrides opts section-style-center))}
+      (for [[principle-core principle-extras]
+            (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
+                          "Habits for action" "get you started."
+                          "Creation & curiosity" "over consumption & passivity."
+                          "Techne ≠ episteme." "Not the same thing."
+                          "Rest or focus?" "Search for a balance between body, mind and emotions."])]
+        [:div [:span {:style {:color (:theme/emphasis theme )}}
+               (str/upper-case principle-core)]
+         " " principle-extras])
+      [:div {:style {:font-size "1.2rem"
+                     :color (:theme/unobtrusive theme)}}
+       (->> [{:linktext path/index :href path/index}
+             {:linktext path/other :href path/other}
+             {:linktext path/other2 :href path/other2}
+             {:linktext path/other3 :href path/other3}
+             {:linktext path/other4 :href path/other4}
+             {:linktext path/other5 :href path/other5}
+             {:linktext "play.teod.eu" :href path/play-teod-eu}]
+            (map (fn [{:keys [linktext href]}]
+                   [:a {:href href
+                        :style {:color (:theme/unobtrusive theme)}}
+                    linktext]))
+            (interpose " · "))]]]]))
 
-(defn page-index [req] (page req "" theme-main))
-(defn page-other [req] (page req " other" theme-other))
-(defn page-other2 [req] (page req " other 2" theme-other-crimson))
-(defn page-other3 [req] (page req " other 3" theme-other-brighter))
+(defn page
+  ([req title-suffix theme] (page req title-suffix theme {}))
+  ([req title-suffix theme opts]
+   (principles-page (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
+                         title-suffix)
+                    theme
+                    opts)))
+
+(defn page-index [req]
+  (page req "" theme-main))
+
+(defn page-other [req]
+  (page req " other" theme-other))
+
+(defn page-other2 [req]
+  (page req " other 2" theme-other-crimson))
+
+(defn page-other3 [req]
+  (page req " other 3" theme-other-brighter))
+
+(defn page-other4 [req]
+  (page req " other 4" theme-other-brighter
+        {:section-style/overrides section-style-left-adjust}))
+
+(defn page-other5 [req]
+  (page req " other 5" theme-other-brighter
+        {:section-style/overrides section-style-paragraph-indented-text}))
 
 (defn icon-web [_]
   {:status 200 :body "icon web"})
@@ -107,7 +139,9 @@
    path/index #'page-index
    path/other #'page-other
    path/other2 #'page-other2
-   path/other3 #'page-other3})
+   path/other3 #'page-other3
+   path/other4 #'page-other4
+   path/other5 #'page-other5})
 
 (defn render [content]
   (cond
