@@ -77,6 +77,7 @@
                                :flex-direction :column
                                :gap "2rem"
                                :justify-content :center
+                               :line-height "100%"
                                :color (:theme/primary-color theme)}
                               (:section-style/overrides opts section-style-center))}
       (for [[principle-core principle-extras]
@@ -84,11 +85,13 @@
                           "Habits for action" "get you started."
                           "Creation & curiosity" "over consumption & passivity."
                           "Techne ≠ episteme." "Not the same thing."
-                          "Rest or focus?" "Search for a balance between body, mind and emotions."])]
+                          "Rest or focus?" (str "Search for balance."
+                                                " Body ↔ Mind ↔ Emotions.")])]
         [:div [:span {:style {:color (:theme/emphasis theme )}}
                (str/upper-case principle-core)]
          " " principle-extras])
       [:div {:style {:font-size "1.2rem"
+                     :margin-top "1em"
                      :color (:theme/unobtrusive theme)}}
        (->> [{:linktext path/index :href path/index}
              {:linktext path/other :href path/other}
