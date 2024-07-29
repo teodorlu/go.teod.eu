@@ -9,6 +9,7 @@
        :deprecation/reason "indented paragraph looks weird / chaotic."}
   other5
   "/other5")
-(def icon-web "/icon-web.svg")
+(def other6 "/other6")
 
+(def icon-web "/icon-web.svg")
 (def play-teod-eu "https://play.teod.eu")

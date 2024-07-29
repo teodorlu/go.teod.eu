@@ -44,6 +44,12 @@
    :theme/unobtrusive greyish
    :theme/emphasis dark-blue})
 
+(def theme-bw
+  {:theme/primary-color "rgba(0, 0, 0, 80%)"
+   :theme/secondary-color "rgba(0, 0, 0, 0%)"
+   :theme/unobtrusive "rgba(0, 0, 0, 60%)"
+   :theme/emphasis "rgba(0, 0, 0, 100%)"})
+
 (assert (every? valid-theme? [theme-main theme-other theme-other-crimson]))
 
 (def section-style-center
@@ -98,6 +104,7 @@
              {:linktext path/other2 :href path/other2}
              {:linktext path/other3 :href path/other3}
              {:linktext path/other4 :href path/other4}
+             {:linktext path/other6 :href path/other6}
              {:linktext "play.teod.eu" :href path/play-teod-eu}]
             (map (fn [{:keys [linktext href]}]
                    [:a {:href href
@@ -133,6 +140,10 @@
   (page req " other 5" theme-other-brighter
         {:section-style/overrides section-style-paragraph-indented-text}))
 
+(defn page-other6 [req]
+  (page req " other 6" theme-bw
+        {:section-style/overrides section-style-left-adjust}))
+
 (defn icon-web [_]
   {:status 200 :body "icon web"})
 
@@ -143,7 +154,8 @@
    path/other2 #'page-other2
    path/other3 #'page-other3
    path/other4 #'page-other4
-   path/other5 #'page-other5})
+   path/other5 #'page-other5
+   path/other6 #'page-other6})
 
 (defn render [content]
   (cond
