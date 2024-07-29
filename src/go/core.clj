@@ -27,9 +27,14 @@
 (def theme-2 {:theme/primary-color blackish
               :theme/secondary-color bright-green
               :theme/unobtrusive greyish
+              :theme/emphasis dark-blue})
+
+(def theme-3 {:theme/primary-color blackish
+              :theme/secondary-color bright-green
+              :theme/unobtrusive greyish
               :theme/emphasis crimson})
 
-(assert (every? valid-theme? [theme-1 theme-2]))
+(assert (every? valid-theme? [theme-1 theme-2 theme-3]))
 
 (defn principles-page [title theme]
   (assert (valid-theme? theme))
@@ -63,8 +68,9 @@
         " " principle-extras])
      [:div {:style {:font-size "1.2rem"
                     :color (:theme/unobtrusive theme)}}
-      (->> [{:linktext path/page :href path/page}
+      (->> [{:linktext path/index :href path/index}
             {:linktext path/other :href path/other}
+            {:linktext path/other2 :href path/other2}
             {:linktext "play.teod.eu" :href path/play-teod-eu}]
            (map (fn [{:keys [linktext href]}]
                   [:a {:href href
@@ -77,16 +83,21 @@
                    theme-1))
 
 (defn page-other [req]
-  (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
+  (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊 other")
                    theme-2))
+
+(defn page-other2 [req]
+  (principles-page (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊 other 2")
+                   theme-3))
 
 (defn icon-web [_]
   {:status 200 :body "icon web"})
 
 (def routes
-  {path/page #'page-index
+  {path/icon-web #'icon-web
+   path/index #'page-index
    path/other #'page-other
-   path/icon-web #'icon-web})
+   path/other2 #'page-other2})
 
 (defn render [content]
   (cond
