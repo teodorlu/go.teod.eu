@@ -198,10 +198,9 @@
 (defn root-handler [req]
   (when (not= "/clerk_service_worker.js" (:uri req))
     (tap> req))
-  (if-let [handler (get routes (:uri req))]
-    (or (-> req handler render)
-        (not-found (:uri req)))
-    (not-found (:uri req))))
+  (or (when-let [handler (get routes (:uri req))]
+        (-> req handler render))
+      (not-found (:uri req))))
 
 (defonce server (atom nil))
 
