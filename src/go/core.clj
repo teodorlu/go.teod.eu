@@ -199,10 +199,8 @@
   (when (not= "/clerk_service_worker.js" (:uri req))
     (tap> req))
   (if-let [handler (get routes (:uri req))]
-    (let [response (-> req handler render)]
-      (if response
-        response
-        (not-found (:uri req))))
+    (or (-> req handler render)
+        (not-found (:uri req)))
     (not-found (:uri req))))
 
 (defonce server (atom nil))
