@@ -142,13 +142,16 @@
         {:section-style/overrides section-style-left-adjust}))
 
 (defn page-other [req]
-  (page req " other" theme-other))
+  (page req " other" theme-other
+        {:section-style/overrides section-style-center}))
 
 (defn page-other2 [req]
-  (page req " other 2" theme-other-crimson))
+  (page req " other 2" theme-other-crimson
+        {:section-style/overrides section-style-center}))
 
 (defn page-other3 [req]
-  (page req " other 3" theme-other-brighter))
+  (page req " other 3" theme-other-brighter
+        {:section-style/overrides section-style-center}))
 
 (defn page-other4 [req]
   (page req " other 4" theme-other-brighter
