@@ -68,12 +68,14 @@
 
 (assert (every? valid-theme? [theme-main theme-other theme-other-crimson]))
 
-(def section-style-center
-  "Center text in sections"
-  {:text-align :center :justify-content :center})
 (def section-style-left-adjust
   "Left adjust text in sections"
   {})
+
+(def section-style-center
+  "Center text in sections"
+  {:text-align :center :justify-content :center})
+
 (def section-style-paragraph-indented-text
   "Left adjust text in sections, indenting text after first line"
   {:text-indent "3em hanging"})
