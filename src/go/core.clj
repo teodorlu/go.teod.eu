@@ -85,8 +85,7 @@
    (principles-page title theme {}))
   ([title theme opts]
    (assert (valid-theme? theme))
-   [:html {:lang "en"
-           :style {:height "100%"}}
+   [:html {:lang "en" :style {:height "100%"}}
     [:head
      [:title title]
      [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
