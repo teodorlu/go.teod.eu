@@ -7,7 +7,8 @@
 
 (def bright-green "hsl(124, 100%, 88%)")
 (def brighter-green "hsl(122.67 89% 94%)")
-(def blackish "rgba(0,0,0,0.95)")
+(def black "rgba(0,0,0,1.00)")
+(def cautious-black "rgba(0,0,0,0.95)")
 (def greyish "hsl(108, 5%, 40%);")
 (def bright-blue "rgb(109 219 253)")
 (def dark-blue "rgb(0, 91, 119)")
@@ -25,36 +26,36 @@
 
 (def theme-main
   {:theme/primary-color bright-green
-   :theme/secondary-color blackish
+   :theme/secondary-color black
    :theme/unobtrusive greyish
    :theme/emphasis bright-blue})
 
 (def theme-code
   {:theme/emphasis neno-blue
-   :theme/secondary-color blackish
+   :theme/secondary-color cautious-black
    :theme/unobtrusive greyish
    :theme/primary-color julian-yellow})
 
 (def theme-line
   {:theme/emphasis julian-yellow
-   :theme/secondary-color blackish
+   :theme/secondary-color black
    :theme/unobtrusive greyish
    :theme/primary-color neno-blue})
 
 (def theme-other
-  {:theme/primary-color blackish
+  {:theme/primary-color black
    :theme/secondary-color bright-green
    :theme/unobtrusive greyish
    :theme/emphasis crimson})
 
 (def theme-other-crimson
-  {:theme/primary-color blackish
+  {:theme/primary-color black
    :theme/secondary-color brighter-green
    :theme/unobtrusive greyish
    :theme/emphasis crimson})
 
 (def theme-other-brighter
-  {:theme/primary-color blackish
+  {:theme/primary-color black
    :theme/secondary-color brighter-green
    :theme/unobtrusive greyish
    :theme/emphasis dark-blue})
