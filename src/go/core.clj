@@ -35,6 +35,12 @@
    :theme/unobtrusive greyish
    :theme/primary-color julian-yellow})
 
+(def theme-line
+  {:theme/emphasis julian-yellow
+   :theme/secondary-color blackish
+   :theme/unobtrusive greyish
+   :theme/primary-color neno-blue})
+
 (def theme-other
   {:theme/primary-color blackish
    :theme/secondary-color bright-green
@@ -115,6 +121,7 @@
              {:linktext path/other4 :href path/other4}
              {:linktext path/other6 :href path/other6}
              {:linktext path/theme-code :href path/theme-code}
+             {:linktext path/theme-line :href path/theme-line}
              {:linktext "play.teod.eu" :href path/play-teod-eu}]
             (map (fn [{:keys [linktext href]}]
                    [:a {:href href
@@ -159,6 +166,10 @@
   (page req " theme-code" theme-code
         {:section-style/overrides section-style-left-adjust}))
 
+(defn page-theme-line [req]
+  (page req " theme-line" theme-line
+        {:section-style/overrides section-style-left-adjust}))
+
 (defn icon-web [_]
   {:status 200 :body "icon web"})
 
@@ -171,7 +182,8 @@
    path/other4 #'page-other4
    path/other5 #'page-other5
    path/other6 #'page-other6
-   path/theme-code #'page-theme-code})
+   path/theme-code #'page-theme-code
+   path/theme-line #'page-theme-line})
 
 (defn render [content]
   (cond
