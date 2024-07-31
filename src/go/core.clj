@@ -7,11 +7,14 @@
 
 (def bright-green "hsl(124, 100%, 88%)")
 (def brighter-green "hsl(122.67 89% 94%)")
-(def blackish "black")
+(def blackish "rgba(0,0,0,0.95)")
 (def greyish "hsl(108, 5%, 40%);")
 (def bright-blue "rgb(109 219 253)")
 (def dark-blue "rgb(0, 91, 119)")
 (def crimson "hsl(19, 100%, 44%)")
+(def julian-yellow "rgb(255,203,107)")
+(def neno-blue "rgb(130,170,255)")
+(def line-grønn "rgb(179,213,130)")
 
 (defn valid-theme? [theme]
   (every? #(contains? theme %)
@@ -25,6 +28,12 @@
    :theme/secondary-color blackish
    :theme/unobtrusive greyish
    :theme/emphasis bright-blue})
+
+(def theme-code
+  {:theme/emphasis neno-blue
+   :theme/secondary-color blackish
+   :theme/unobtrusive greyish
+   :theme/primary-color julian-yellow})
 
 (def theme-other
   {:theme/primary-color blackish
@@ -105,6 +114,7 @@
              ;; {:linktext path/other3 :href path/other3}
              {:linktext path/other4 :href path/other4}
              {:linktext path/other6 :href path/other6}
+             {:linktext path/theme-code :href path/theme-code}
              {:linktext "play.teod.eu" :href path/play-teod-eu}]
             (map (fn [{:keys [linktext href]}]
                    [:a {:href href
@@ -145,6 +155,10 @@
   (page req " other 6" theme-bw
         {:section-style/overrides section-style-left-adjust}))
 
+(defn page-theme-code [req]
+  (page req " theme-code" theme-code
+        {:section-style/overrides section-style-left-adjust}))
+
 (defn icon-web [_]
   {:status 200 :body "icon web"})
 
@@ -156,7 +170,8 @@
    path/other3 #'page-other3
    path/other4 #'page-other4
    path/other5 #'page-other5
-   path/other6 #'page-other6})
+   path/other6 #'page-other6
+   path/theme-code #'page-theme-code})
 
 (defn render [content]
   (cond
