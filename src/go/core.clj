@@ -100,7 +100,7 @@
                                :justify-content :center
                                :line-height "100%"
                                :color (:theme/primary-color theme)}
-                              (:section-style/overrides opts section-style-center))}
+                              (:section-style/overrides opts section-style-left-adjust))}
       (for [[principle-core principle-extras]
             (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
                           "Habits for action" "get you started."
@@ -130,48 +130,36 @@
             (interpose " · "))]]]]))
 
 (defn page
-  ([req title-suffix theme] (page req title-suffix theme {}))
-  ([req title-suffix theme opts]
-   (principles-page (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊")
-                         title-suffix)
-                    theme
-                    opts)))
+  ([req theme] (page req theme {}))
+  ([req theme opts]
+   (let [title (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊"))]
+     (principles-page title theme opts))))
 
-(defn page-index [req]
-  (page req "" theme-main
-        {:section-style/overrides section-style-left-adjust}))
+;; Deprecated design options
 
 (defn page-other [req]
-  (page req " other" theme-other
+  (page req theme-other
         {:section-style/overrides section-style-center}))
 
 (defn page-other2 [req]
-  (page req " other 2" theme-other-crimson
+  (page req theme-other-crimson
         {:section-style/overrides section-style-center}))
 
 (defn page-other3 [req]
-  (page req " other 3" theme-other-brighter
+  (page req theme-other-brighter
         {:section-style/overrides section-style-center}))
 
-(defn page-other4 [req]
-  (page req " other 4" theme-other-brighter
-        {:section-style/overrides section-style-left-adjust}))
-
 (defn page-other5 [req]
-  (page req " other 5" theme-other-brighter
+  (page req theme-other-brighter
         {:section-style/overrides section-style-paragraph-indented-text}))
 
-(defn page-other6 [req]
-  (page req " other 6" theme-bw
-        {:section-style/overrides section-style-left-adjust}))
+;; Open design options
 
-(defn page-theme-code [req]
-  (page req " theme-code" theme-code
-        {:section-style/overrides section-style-left-adjust}))
-
-(defn page-theme-line [req]
-  (page req " theme-line" theme-line
-        {:section-style/overrides section-style-left-adjust}))
+(defn page-index      [req] (page req theme-main))
+(defn page-other4     [req] (page req theme-other-brighter))
+(defn page-other6     [req] (page req theme-bw))
+(defn page-theme-code [req] (page req theme-code))
+(defn page-theme-line [req] (page req theme-line))
 
 (defn icon-web [_]
   {:status 200 :body "icon web"})
