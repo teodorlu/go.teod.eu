@@ -104,7 +104,7 @@
                                :color (:theme/primary-color theme)}
                               (:section-style/overrides opts section-style-left-adjust))}
       (for [[principle-core principle-extras]
-            (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions................"
+            (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
                           "Habits for action" "get you started."
                           "Creation & curiosity" "over consumption & passivity."
                           "Techne ≠ episteme." "Not the same thing."
