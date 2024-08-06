@@ -129,7 +129,10 @@
                    [:a {:href href
                         :style {:color (:theme/unobtrusive theme)}}
                     linktext]))
-            (interpose " · "))]]]]))
+            (interpose " · "))]
+      [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive theme)}}
+       [:em "TODO "]
+       (interpose " · " ["Add weeknote text field" "Interesting video roulette"])]]]]))
 
 (defn page
   ([req theme] (page req theme {}))
