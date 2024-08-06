@@ -132,7 +132,8 @@
             (interpose " · "))]
       [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive theme)}}
        [:em "TODO "]
-       (interpose " · " ["Add weeknote text field" "Interesting video roulette"])]]]]))
+       (interpose " · " ["Consider adding weeknote text field"
+                         "Consider adding an interesting video roulette"])]]]]))
 
 (defn page
   ([req theme] (page req theme {}))
