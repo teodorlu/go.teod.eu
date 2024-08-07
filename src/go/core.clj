@@ -131,9 +131,11 @@
                     linktext]))
             (interpose " · "))]
       [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive theme)}}
-       [:em "TODO "]
-       (interpose " · " ["Consider adding weeknote text field"
-                         "Consider adding an interesting video roulette"])]]]]))
+       [:details
+        [:summary [:em "TODO "]]
+        (into [:ul] (map #(vector :li %)
+                         ["Consider adding weeknote text field"
+                          "Consider adding an interesting video roulette"]))]]]]]))
 
 (defn page
   ([req theme] (page req theme {}))
