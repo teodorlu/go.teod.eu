@@ -107,7 +107,7 @@
             (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
                           "Habits for action" "get you started."
                           "Creation & curiosity" "over consumption & passivity."
-                          "Techne ≠ episteme." "Not the same thing."
+                          ;; "Techne ≠ episteme." "Not the same thing."
                           "Rest or focus?" (str "Search for balance."
                                                 " Body ↔ Mind ↔ Emotions.")])]
         [:div [:span {:style {:color (:theme/emphasis theme )}}
