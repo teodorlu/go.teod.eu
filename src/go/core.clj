@@ -27,47 +27,44 @@
   {})
 
 (defn principles-page
-  ([title theme]
-   (principles-page title theme {}))
-  ([title theme opts]
-   (assert (valid-theme? theme))
-   (framework/page
-    {:title title :theme theme}
-    [:section {:style (merge {:height "100%"
-                              :display :flex
-                              :flex-direction :column
-                              :gap "2rem"
-                              :justify-content :center
-                              :line-height "100%"
-                              :color (:theme/primary-color theme)}
-                             (:section-style/overrides opts section-style-left-adjust))}
-     (for [[principle-core principle-extras]
-           (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
-                         "Habits for action" "get you started."
-                         "Creation & curiosity" "over consumption & passivity."
-                         ;; "Techne ≠ episteme." "Not the same thing."
-                         "Rest or focus?" (str "Search for balance."
-                                               " Body ↔ Mind ↔ Emotions.")])]
-       [:div [:span {:style {:color (:theme/emphasis theme )}}
-              (str/upper-case principle-core)]
-        " " principle-extras])
-     [:div {:style {:font-size "1.2rem"
-                    :margin-top "1em"
-                    :color (:theme/unobtrusive theme)}}
-      [:a {:href path/play-teod-eu
-           :style {:color (:theme/unobtrusive theme)}}
-       "play.teod.eu"]]
+  [title theme]
+  (assert (valid-theme? theme))
+  (framework/page
+   {:title title :theme theme}
+   [:section {:style {:height "100%"
+                      :display :flex
+                      :flex-direction :column
+                      :gap "2rem"
+                      :justify-content :center
+                      :line-height "100%"
+                      :color (:theme/primary-color theme)}}
+    (for [[principle-core principle-extras]
+          (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
+                        "Habits for action" "get you started."
+                        "Creation & curiosity" "over consumption & passivity."
+                        ;; "Techne ≠ episteme." "Not the same thing."
+                        "Rest or focus?" (str "Search for balance."
+                                              " Body ↔ Mind ↔ Emotions.")])]
+      [:div [:span {:style {:color (:theme/emphasis theme )}}
+             (str/upper-case principle-core)]
+       " " principle-extras])
+    [:div {:style {:font-size "1.2rem"
+                   :margin-top "1em"
+                   :color (:theme/unobtrusive theme)}}
+     [:a {:href path/play-teod-eu
+          :style {:color (:theme/unobtrusive theme)}}
+      "play.teod.eu"]]
 
-     [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive theme)}}
-      [:details
-       [:summary [:em "TODO "]]
-       (into [:ul] (map #(vector :li %)
-                        ["Consider adding weeknote text field"
-                         "Consider adding an interesting video roulette"]))]]])))
+    [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive theme)}}
+     [:details
+      [:summary [:em "TODO "]]
+      (into [:ul] (map #(vector :li %)
+                       ["Consider adding weeknote text field"
+                        "Consider adding an interesting video roulette"]))]]]))
 
 (defn page2 [req]
   (let [title (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊"))]
-    (principles-page title theme-main {})))
+    (principles-page title theme-main)))
 
 (def routes
   [[path/index #'page2]])
