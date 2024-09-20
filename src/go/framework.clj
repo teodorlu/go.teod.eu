@@ -39,11 +39,9 @@
                     [:meta {:charset charset}]
                     [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]
                     [:meta {:name "color-scheme" :content "light dark"}]
-                    (include-js "htmx.org@2.0.2.js")
-                    (include-css "pico.min.css")]
+                    (include-js "htmx.org@2.0.2.js")]
                    head)
-             [:body
-              (into [:main.container] contents)]))))
+             (into [:body] contents)))))
 
 (def ^{:doc "An atom backed by persistent storage."}
   state

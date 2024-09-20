@@ -1,9 +1,8 @@
 (ns go.core
   (:require
    [clojure.string :as str]
-   [hiccup2.core :as hiccup]
-   [org.httpkit.server :as httpkit]
-   [go.path :as path]))
+   [go.path :as path]
+   [go.framework :as framework]))
 
 (def bright-green "hsl(124, 100%, 88%)")
 (def black "rgba(0,0,0,1.00)")
@@ -35,7 +34,8 @@
    [:html {:lang "en" :style {:height "100%"}}
     [:head
      [:title title]
-     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]]
+     [:meta {:name "viewport" :content "width=device-width,initial-scale=1"}]
+     [:meta {:charset "utf-8"}]]
     [:body {:style {:height "100%" :margin 0
                     :font-size "1.8rem"
                     :padding-left "1rem"
@@ -80,53 +80,11 @@
    (let [title (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊"))]
      (principles-page title theme opts))))
 
-(defn page-index      [req] (page req theme-main))
-
-(defn icon-web [_]
-  {:status 200 :body "icon web"})
+(defn page-index [req]
+  (page req theme-main))
 
 (def routes
-  {path/icon-web #'icon-web
-   path/index #'page-index})
+  [[path/index #'page-index]])
 
-(defn render [content]
-  (cond
-    ;; Vectors are Hiccup HTML
-    (vector? content)
-    {:status 200
-     :headers {"Content-Type" "text/html; charset=utf-8"}
-     :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>") content))}
-
-    ;; Maps are ring responses
-    (map? content)
-    map))
-
-(defn not-found [description]
-  {:status 404
-   :headers {"Content-Type" "text/html; charset=utf-8"}
-   :body (str (hiccup/html (hiccup/raw "<!DOCTYPE html>")
-                [:html [:body "Page not found: " description]]))})
-
-(defn root-handler [req]
-  (when (not= "/clerk_service_worker.js" (:uri req))
-    (tap> req))
-  (or (when-let [handler (get routes (:uri req))]
-        (-> req handler render))
-      (not-found (:uri req))))
-
-(defonce server (atom nil))
-
-#_{:clj-kondo/ignore [:clojure-lsp/unused-public-var]}
-(defn serve! [_]
-  (swap! server
-         (fn [old-server]
-           (when old-server
-             (httpkit/server-stop! old-server))
-           (httpkit/run-server #'root-handler
-                               {:port 7777
-                                :legacy-return-value? false}))))
-
-#_ (deref server)
-#_ (httpkit/server-status @server)
-#_ (serve! {})
-#_ (httpkit/server-stop! @server)
+(defn start! [opts]
+  (framework/start! #'routes opts))

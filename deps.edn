@@ -11,4 +11,4 @@
   metosin/reitit {:mvn/version "0.7.2"}
   ring/ring-core {:mvn/version "1.12.1"}}
  :aliases
- {:nextjournal/garden {:exec-fn go.core/serve!}}}
+ {:nextjournal/garden {:exec-fn go.core/start!}}}
