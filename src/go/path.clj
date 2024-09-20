@@ -12,6 +12,7 @@
 (def other6 "/other6")
 (def theme-code "/theme-code")
 (def theme-line "/theme-line")
+(def theme-nu "/theme-nu")
 
 (def icon-web "/icon-web.svg")
 (def play-teod-eu "https://play.teod.eu")

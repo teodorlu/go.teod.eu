@@ -66,6 +66,12 @@
    :theme/unobtrusive "rgba(0, 0, 0, 60%)"
    :theme/emphasis "rgba(0, 0, 0, 100%)"})
 
+(def theme-nu
+  {:theme/primary-color "black"
+   :theme/secondary-color "darkblue"
+   :theme/unobtrusive "maroon"
+   :theme/emphasis "crimson"})
+
 (assert (every? valid-theme? [theme-main theme-other theme-other-crimson]))
 
 (def section-style-left-adjust
@@ -168,6 +174,7 @@
 (defn page-other6     [req] (page req theme-bw))
 (defn page-theme-code [req] (page req theme-code))
 (defn page-theme-line [req] (page req theme-line))
+(defn page-theme-nu   [req] (page req theme-nu))
 
 (defn icon-web [_]
   {:status 200 :body "icon web"})
@@ -182,7 +189,8 @@
    path/other5 #'page-other5
    path/other6 #'page-other6
    path/theme-code #'page-theme-code
-   path/theme-line #'page-theme-line})
+   path/theme-line #'page-theme-line
+   path/theme-nu #'page-theme-nu})
 
 (defn render [content]
   (cond
