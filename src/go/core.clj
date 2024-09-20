@@ -65,17 +65,12 @@
                         ["Consider adding weeknote text field"
                          "Consider adding an interesting video roulette"]))]]])))
 
-(defn page
-  ([req theme] (page req theme {}))
-  ([req theme opts]
-   (let [title (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊"))]
-     (principles-page title theme opts))))
-
-(defn page-index [req]
-  (page req theme-main))
+(defn page2 [req]
+  (let [title (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊"))]
+    (principles-page title theme-main {})))
 
 (def routes
-  [[path/index #'page-index]])
+  [[path/index #'page2]])
 
 (defn start! [opts]
   (framework/start! #'routes opts))
