@@ -13,14 +13,14 @@
   (every? #(contains? theme %)
           [:theme/primary-color
            :theme/secondary-color
-           :theme/unobtrusive
-           :theme/emphasis]))
+           :theme/unobtrusive-color
+           :theme/emphasis-color]))
 
 (def theme-blumoon
   {:theme/primary-color bright-green
    :theme/secondary-color black
-   :theme/unobtrusive greyish
-   :theme/emphasis bright-blue})
+   :theme/unobtrusive-color greyish
+   :theme/emphasis-color bright-blue})
 
 (defn principles-page
   [title theme]
@@ -41,17 +41,17 @@
                         ;; "Techne ≠ episteme." "Not the same thing."
                         "Rest or focus?" (str "Search for balance."
                                               " Body ↔ Mind ↔ Emotions.")])]
-      [:div [:span {:style {:color (:theme/emphasis theme )}}
+      [:div [:span {:style {:color (:theme/emphasis-color theme )}}
              (str/upper-case principle-core)]
        " " principle-extras])
     [:div {:style {:font-size "1.2rem"
                    :margin-top "1em"
-                   :color (:theme/unobtrusive theme)}}
+                   :color (:theme/unobtrusive-color theme)}}
      [:a {:href path/play-teod-eu
-          :style {:color (:theme/unobtrusive theme)}}
+          :style {:color (:theme/unobtrusive-color theme)}}
       "play.teod.eu"]]
 
-    [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive theme)}}
+    [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive-color theme)}}
      [:details
       [:summary [:em "TODO "]]
       (into [:ul] (map #(vector :li %)
