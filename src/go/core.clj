@@ -16,7 +16,7 @@
            :theme/unobtrusive
            :theme/emphasis]))
 
-(def theme-main
+(def theme-blumoon
   {:theme/primary-color bright-green
    :theme/secondary-color black
    :theme/unobtrusive greyish
@@ -60,7 +60,7 @@
 
 (defn page2 [req]
   (let [title (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊"))]
-    (principles-page title theme-main)))
+    (principles-page title theme-blumoon)))
 
 (def routes
   [[path/index #'page2]])
