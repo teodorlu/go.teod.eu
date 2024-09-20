@@ -22,10 +22,6 @@
    :theme/unobtrusive greyish
    :theme/emphasis bright-blue})
 
-(def section-style-left-adjust
-  "Left adjust text in sections"
-  {})
-
 (defn principles-page
   [title theme]
   (assert (valid-theme? theme))
