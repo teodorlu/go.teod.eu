@@ -29,11 +29,11 @@
 (defn page [opts & contents]
   (if-not (map? opts)
     (apply page {} opts contents)
-    (let [{:keys [title lang charset head]
+    (let [{:keys [title lang charset head theme]
            :or {title "Impulse power!"
                 lang "en"
                 charset "utf-8"}} opts]
-      (html5 {:lang lang}
+      (html5 {:lang lang :style {:height "100%"}}
              (into [:head
                     [:title title]
                     [:meta {:charset charset}]
@@ -41,7 +41,13 @@
                     [:meta {:name "color-scheme" :content "light dark"}]
                     (include-js "htmx.org@2.0.2.js")]
                    head)
-             (into [:body] contents)))))
+             (into [:body {:style {:height "100%" :margin 0
+                                   :font-size "1.8rem"
+                                   :padding-left "1rem"
+                                   :padding-right "1rem"
+                                   :background-color (:theme/secondary-color theme)
+                                   :font-family "serif"}}]
+                   contents)))))
 
 (def ^{:doc "An atom backed by persistent storage."}
   state
