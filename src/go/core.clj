@@ -74,12 +74,29 @@
     (view-links theme)
     (view-future-plans theme)]))
 
+(defn req->title [req]
+  (cond (= "localhost" (:server-name req))
+        "🩵 local"
+
+        :else
+        "🌊 🌊 🌊"))
+
 (defn page2 [req]
-  (let [title (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊"))]
-    (principles-page title theme-blumoon)))
+  (principles-page (req->title req) theme-blumoon))
 
 (def routes
   [[path/index #'page2]])
 
 (defn start! [opts]
   (framework/start! #'routes opts))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;
+;; COMMENTARY AND EXPLORATION
+
+(comment
+  (-> @framework/last-request
+      (dissoc :reitit.core/match)
+      (dissoc :reitit.core/router))
+
+  ,)
