@@ -28,10 +28,10 @@
   [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive-color theme)}}
    [:details
     [:summary [:em {:style {:css/font-variant :css/small-caps}} "Future plans?"]]
-    [:div
+    [:div {:style {:margin-top "0.5rem"}}
      (for [idea ["add weeknote text field?"
                  "add video roulette?"]]
-       [:div {:style {:margin-left "0.5rem"}} idea])]]])
+       [:div {:style {:margin-left "0.8rem"}} "↝ " idea])]]])
 
 (defn view-links [theme]
   [:div {:style {:font-size "1.2rem"
