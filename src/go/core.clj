@@ -4,6 +4,8 @@
    [go.path :as path]
    [go.framework :as framework]))
 
+(set! *print-namespace-maps* false)
+
 (def bright-green "hsl(124, 100%, 88%)")
 (def black "rgba(0,0,0,1.00)")
 (def greyish "hsl(108, 5%, 40%);")
@@ -31,6 +33,31 @@
                  "add video roulette?"]]
        [:div {:style {:margin-left "0.5rem"}} idea])]]])
 
+(defn view-links [theme]
+  [:div {:style {:font-size "1.2rem"
+                 :margin-top "1em"
+                 :color (:theme/unobtrusive-color theme)}}
+   [:a {:href path/play-teod-eu
+        :style {:color (:theme/unobtrusive-color theme)}}
+    "play.teod.eu"]])
+
+(def principles
+  (->> ["Balance." "Body ↔ Mind ↔ Emotions."
+        "Habits for action" "get you started."
+        "Creation & curiosity" "over consumption & passivity."
+        ;; "Techne ≠ episteme." "Not the same thing."
+        "Rest or focus?" (str "Search for balance."
+                              " Body ↔ Mind ↔ Emotions.")]
+       (partition 2)
+       (map (fn [[principle-core principle-extras]]
+              {:principle/core principle-core
+               :principle/extras principle-extras}))))
+
+(defn view-principle [theme principle]
+  [:div [:span {:style {:color (:theme/emphasis-color theme )}}
+         (str/upper-case (:principle/core principle))]
+   " " (:principle/extras principle)])
+
 (defn principles-page
   [title theme]
   (assert (valid-theme? theme))
@@ -43,23 +70,8 @@
                       :justify-content :center
                       :line-height "100%"
                       :color (:theme/primary-color theme)}}
-    (for [[principle-core principle-extras]
-          (partition 2 ["Balance." "Body ↔ Mind ↔ Emotions."
-                        "Habits for action" "get you started."
-                        "Creation & curiosity" "over consumption & passivity."
-                        ;; "Techne ≠ episteme." "Not the same thing."
-                        "Rest or focus?" (str "Search for balance."
-                                              " Body ↔ Mind ↔ Emotions.")])]
-      [:div [:span {:style {:color (:theme/emphasis-color theme )}}
-             (str/upper-case principle-core)]
-       " " principle-extras])
-    [:div {:style {:font-size "1.2rem"
-                   :margin-top "1em"
-                   :color (:theme/unobtrusive-color theme)}}
-     [:a {:href path/play-teod-eu
-          :style {:color (:theme/unobtrusive-color theme)}}
-      "play.teod.eu"]]
-
+    (map (partial view-principle theme) principles)
+    (view-links theme)
     (view-future-plans theme)]))
 
 (defn page2 [req]
