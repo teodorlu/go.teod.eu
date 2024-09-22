@@ -22,6 +22,15 @@
    :theme/unobtrusive-color greyish
    :theme/emphasis-color bright-blue})
 
+(defn view-future-plans [theme]
+  [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive-color theme)}}
+   [:details
+    [:summary [:em {:style {:css/font-variant :css/small-caps}} "Future plans?"]]
+    [:div
+     (for [idea ["add weeknote text field?"
+                 "add video roulette?"]]
+       [:div {:style {:margin-left "0.5rem"}} idea])]]])
+
 (defn principles-page
   [title theme]
   (assert (valid-theme? theme))
@@ -51,12 +60,7 @@
           :style {:color (:theme/unobtrusive-color theme)}}
       "play.teod.eu"]]
 
-    [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive-color theme)}}
-     [:details
-      [:summary [:em "TODO "]]
-      (into [:ul] (map #(vector :li %)
-                       ["Consider adding weeknote text field"
-                        "Consider adding an interesting video roulette"]))]]]))
+    (view-future-plans theme)]))
 
 (defn page2 [req]
   (let [title (str (get {"localhost" "🩵"} (:server-name req) "🌊 🌊 🌊"))]
