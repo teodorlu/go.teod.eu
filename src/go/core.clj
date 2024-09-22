@@ -1,8 +1,9 @@
 (ns go.core
   (:require
    [clojure.string :as str]
+   [go.framework :as framework]
    [go.path :as path]
-   [go.framework :as framework]))
+   [hiccup2.core :as hiccup2]))
 
 (set! *print-namespace-maps* false)
 
@@ -31,7 +32,9 @@
     [:div {:style {:margin-top "0.5rem"}}
      (for [idea ["add weeknote text field?"
                  "add video roulette?"]]
-       [:div {:style {:margin-left "0.8rem"}} "↝ " idea])]]])
+       [:div {:style {:css.prop/margin-left "0.8rem"
+                      :css.prop/color (:theme/primary-color theme)}}
+        "↝ " idea])]]])
 
 (defn view-links [theme]
   [:div {:style {:css.prop/font-size "1.2rem"
@@ -69,6 +72,57 @@
         :else
         "🌊 🌊 🌊"))
 
+(defn add-weeknote-component [_req]
+  (let [theme theme-blumoon]
+    {:status 200
+     :body
+     (str
+      (hiccup2/html
+          [:div {:id :id/weeknote-editor}
+           (identity [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+                      "Write your weeknote:"])
+           (identity
+            [:textarea {:style {:css.prop/width "100%"
+                                :css.prop/resize "vertical"
+                                :css.prop/height "7rem"
+                                :css.prop/border "1px solid white"
+                                :css.prop/color (:theme/emphasis-color theme)
+                                :css.prop/background-color (:theme/secondary-color theme)}
+                        :name "weeknote"
+                        :placeholder "text …"}])
+           [:button {:hx-post path/add-weeknote
+                     :hx-target (str "#" (name :id/weeknote-editor))
+                     :hx-swap :htmx/outerHTML}
+            "Save"]]))}))
+
+(defn add-weeknote [_req]
+  (let [theme theme-blumoon]
+    (println "add weeknote")
+    {:status 200
+     :body
+     (str
+      (hiccup2/html
+          [:div {:id :id/weeknote-editor}
+           (identity
+            [:div {:style {:css.prop/color (:theme/unobtrusive-color theme)}}
+             "Weeknote added!"
+             " If you wish, add another."])
+           [:a {:hx-get path/add-weeknote
+                :hx-target (str "#" (name :id/weeknote-editor))
+                :hx-swap :htmx/outerHTML
+                :style {:css.prop/color (:theme/unobtrusive-color theme)
+                        :css.prop/text-decoration :css.val/underline}}
+            "Add weeknote"]]))}))
+
+(defn add-weeknote-button [theme]
+  [:div {:id :id/weeknote-editor}
+   [:a {:hx-get path/add-weeknote
+        :hx-target (str "#" (name :id/weeknote-editor))
+        :hx-swap :htmx/outerHTML
+        :style {:css.prop/color (:theme/unobtrusive-color theme)
+                :css.prop/text-decoration :css.val/underline}}
+    "Add weeknote"]])
+
 (defn principles-page
   [req]
   (let [theme theme-blumoon]
@@ -80,15 +134,18 @@
                         :css.prop/flex-direction :css.val/column
                         :css.prop/gap "2rem"
                         :css.prop/justify-content :css.val/center
-                        :css.prop/line-height "100%"}}
+                        :css.prop/line-height "2rem"
+                        }}
       (map (partial view-principle theme) principles)
       (view-links theme)
       (view-future-plans theme)
-      [:div {:style {:css.prop/color (:theme/unobtrusive-color theme)}}
-       "What about weeknotes?"]])))
+      (when (= "localhost" (:server-name req))
+        (add-weeknote-button theme))])))
 
 (def routes
-  [[path/index #'principles-page]])
+  [[path/index #'principles-page]
+   [path/add-weeknote {:get #'add-weeknote-component
+                       :post #'add-weeknote}]])
 
 (defn start! [opts]
   (framework/start! #'routes opts))
@@ -98,8 +155,5 @@
 ;; COMMENTARY AND EXPLORATION
 
 (comment
-  (-> @framework/last-request
-      (dissoc :reitit.core/match)
-      (dissoc :reitit.core/router))
-
+  @framework/last-request
   ,)
