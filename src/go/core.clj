@@ -58,22 +58,6 @@
          (str/upper-case (:principle/core principle))]
    " " (:principle/extras principle)])
 
-(defn principles-page
-  [title theme]
-  (assert (valid-theme? theme))
-  (framework/page
-   {:title title :theme theme}
-   [:section {:style {:css.prop/height "100%"
-                      :css.prop/display :css.val/flex
-                      :css.prop/flex-direction :css.val/column
-                      :css.prop/gap "2rem"
-                      :css.prop/justify-content :css.val/center
-                      :css.prop/line-height "100%"
-                      :css.prop/color (:theme/primary-color theme)}}
-    (map (partial view-principle theme) principles)
-    (view-links theme)
-    (view-future-plans theme)]))
-
 (defn req->title [req]
   (cond (= "localhost" (:server-name req))
         "🩵 local"
@@ -81,11 +65,25 @@
         :else
         "🌊 🌊 🌊"))
 
-(defn page2 [req]
-  (principles-page (req->title req) theme-blumoon))
+(defn principles-page
+  [req]
+  (let [theme theme-blumoon]
+    (assert (valid-theme? theme))
+    (framework/page
+     {:title (req->title req) :theme theme}
+     [:section {:style {:css.prop/height "100%"
+                        :css.prop/display :css.val/flex
+                        :css.prop/flex-direction :css.val/column
+                        :css.prop/gap "2rem"
+                        :css.prop/justify-content :css.val/center
+                        :css.prop/line-height "100%"
+                        :css.prop/color (:theme/primary-color theme)}}
+      (map (partial view-principle theme) principles)
+      (view-links theme)
+      (view-future-plans theme)])))
 
 (def routes
-  [[path/index #'page2]])
+  [[path/index #'principles-page]])
 
 (defn start! [opts]
   (framework/start! #'routes opts))
