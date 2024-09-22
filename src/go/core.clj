@@ -54,9 +54,13 @@
                :principle/extras principle-extras}))))
 
 (defn view-principle [theme principle]
-  [:div [:span {:style {:css.prop/color (:theme/emphasis-color theme )}}
-         (str/upper-case (:principle/core principle))]
-   " " (:principle/extras principle)])
+  [:div
+    {:style {:css.prop/font-size "1.8rem"}}
+   [:span {:style {:css.prop/color (:theme/emphasis-color theme )}}
+    (str/upper-case (:principle/core principle))]
+   " "
+   [:span {:style {:css.prop/color (:theme/primary-color theme)}}
+    (:principle/extras principle)]])
 
 (defn req->title [req]
   (cond (= "localhost" (:server-name req))
@@ -76,11 +80,12 @@
                         :css.prop/flex-direction :css.val/column
                         :css.prop/gap "2rem"
                         :css.prop/justify-content :css.val/center
-                        :css.prop/line-height "100%"
-                        :css.prop/color (:theme/primary-color theme)}}
+                        :css.prop/line-height "100%"}}
       (map (partial view-principle theme) principles)
       (view-links theme)
-      (view-future-plans theme)])))
+      (view-future-plans theme)
+      [:div {:style {:css.prop/color (:theme/unobtrusive-color theme)}}
+       "What about weeknotes?"]])))
 
 (def routes
   [[path/index #'principles-page]])

@@ -38,15 +38,15 @@
                     [:title title]
                     [:meta {:charset charset}]
                     [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]
-                    [:meta {:name "color-scheme" :content "light dark"}]
                     (include-js "htmx.org@2.0.2.js")]
                    head)
-             (into [:body {:style {:height "100%" :margin 0
-                                   :font-size "1.8rem"
-                                   :padding-left "1rem"
-                                   :padding-right "1rem"
-                                   :background-color (:theme/secondary-color theme)
-                                   :font-family "serif"}}]
+             (into [:body {:style {:css.prop/height "100%"
+                                   :css.prop/margin 0
+                                   :css.prop/font-size "1.2rem"
+                                   :css.prop/padding-left "1rem"
+                                   :css.prop/padding-right "1rem"
+                                   :css.prop/background-color (:theme/secondary-color theme)
+                                   :css.prop/font-family "serif"}}]
                    contents)))))
 
 (def ^{:doc "An atom backed by persistent storage."}
