@@ -25,20 +25,20 @@
    :theme/emphasis-color bright-blue})
 
 (defn view-future-plans [theme]
-  [:div {:style {:font-size "1.2rem" :color (:theme/unobtrusive-color theme)}}
+  [:div {:style {:css.prop/font-size "1.2rem" :css.prop/color (:theme/unobtrusive-color theme)}}
    [:details
-    [:summary [:em {:style {:css/font-variant :css/small-caps}} "Future plans?"]]
+    [:summary [:em {:style {:css.prop/font-variant :css.val/small-caps}} "Future plans?"]]
     [:div {:style {:margin-top "0.5rem"}}
      (for [idea ["add weeknote text field?"
                  "add video roulette?"]]
        [:div {:style {:margin-left "0.8rem"}} "↝ " idea])]]])
 
 (defn view-links [theme]
-  [:div {:style {:font-size "1.2rem"
-                 :margin-top "1em"
-                 :color (:theme/unobtrusive-color theme)}}
+  [:div {:style {:css.prop/font-size "1.2rem"
+                 :css.prop/margin-top "1em"
+                 :css.prop/color (:theme/unobtrusive-color theme)}}
    [:a {:href path/play-teod-eu
-        :style {:color (:theme/unobtrusive-color theme)}}
+        :style {:css.prop/color (:theme/unobtrusive-color theme)}}
     "play.teod.eu"]])
 
 (def principles
@@ -54,7 +54,7 @@
                :principle/extras principle-extras}))))
 
 (defn view-principle [theme principle]
-  [:div [:span {:style {:color (:theme/emphasis-color theme )}}
+  [:div [:span {:style {:css.prop/color (:theme/emphasis-color theme )}}
          (str/upper-case (:principle/core principle))]
    " " (:principle/extras principle)])
 
@@ -63,13 +63,13 @@
   (assert (valid-theme? theme))
   (framework/page
    {:title title :theme theme}
-   [:section {:style {:height "100%"
-                      :display :flex
-                      :flex-direction :column
-                      :gap "2rem"
-                      :justify-content :center
-                      :line-height "100%"
-                      :color (:theme/primary-color theme)}}
+   [:section {:style {:css.prop/height "100%"
+                      :css.prop/display :css.val/flex
+                      :css.prop/flex-direction :css.val/column
+                      :css.prop/gap "2rem"
+                      :css.prop/justify-content :css.val/center
+                      :css.prop/line-height "100%"
+                      :css.prop/color (:theme/primary-color theme)}}
     (map (partial view-principle theme) principles)
     (view-links theme)
     (view-future-plans theme)]))
