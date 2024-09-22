@@ -46,7 +46,7 @@
         "Habits for action" "get you started."
         "Creation & curiosity" "over consumption & passivity."
         ;; "Techne ≠ episteme." "Not the same thing."
-        "Rest or focus?" (str "Search for balance."
+        "Rest or focus?" (str "Strive for balance."
                               " Body ↔ Mind ↔ Emotions.")]
        (partition 2)
        (map (fn [[principle-core principle-extras]]
