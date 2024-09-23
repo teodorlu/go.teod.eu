@@ -3,7 +3,14 @@
    [clojure.string :as str]
    [go.framework :as framework]
    [go.path :as path]
-   [hiccup2.core :as hiccup2]))
+   [hiccup2.core :as hiccup2])
+  (:import
+   [java.time Instant]))
+
+(comment
+  (reset! framework/state {})
+  @framework/state
+  ,)
 
 (set! *print-namespace-maps* false)
 
@@ -78,7 +85,7 @@
      :body
      (str
       (hiccup2/html
-          [:div {:id :id/weeknote-editor}
+          [:form {:id :id/weeknote-editor}
            (identity [:div {:style {:css.prop/color (:theme/primary-color theme)}}
                       "Write your weeknote:"])
            (identity
@@ -95,31 +102,40 @@
                      :hx-swap :htmx/outerHTML}
             "Save"]]))}))
 
-(defn add-weeknote [_req]
+(comment
+
+  @framework/last-request
+  :form-params {"weeknote" "Hei :)"},
+  ,)
+
+(defn add-weeknote [req]
   (let [theme theme-blumoon]
-    (println "add weeknote")
-    {:status 200
-     :body
-     (str
-      (hiccup2/html
-          [:div {:id :id/weeknote-editor}
-           (identity
-            [:div {:style {:css.prop/color (:theme/unobtrusive-color theme)}}
-             "Weeknote added!"
-             " If you wish, add another."])
-           [:a {:hx-get path/add-weeknote
-                :hx-target (str "#" (name :id/weeknote-editor))
-                :hx-swap :htmx/outerHTML
-                :style {:css.prop/color (:theme/unobtrusive-color theme)
-                        :css.prop/text-decoration :css.val/underline}}
-            "Add weeknote"]]))}))
+    (when-let [weeknote (get-in req [:params "weeknote"])]
+      (swap! framework/state update :weeknotes (fnil conj [])
+             {:text weeknote
+              :uuid (random-uuid)
+              :timestamp (str (Instant/now))})
+      {:status 200
+       :body
+       (str
+        (hiccup2/html
+            [:div {:id :id/weeknote-editor}
+             (identity
+              [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+               "Weeknote added!"])
+             [:a {:hx-get path/add-weeknote
+                  :hx-target (str "#" (name :id/weeknote-editor))
+                  :hx-swap :htmx/outerHTML
+                  :style {:css.prop/color (:theme/primary-color theme)
+                          :css.prop/text-decoration :css.val/underline}}
+              "If you wish, add another."]]))})))
 
 (defn add-weeknote-button [theme]
   [:div {:id :id/weeknote-editor}
    [:a {:hx-get path/add-weeknote
         :hx-target (str "#" (name :id/weeknote-editor))
         :hx-swap :htmx/outerHTML
-        :style {:css.prop/color (:theme/unobtrusive-color theme)
+        :style {:css.prop/color (:theme/primary-color theme)
                 :css.prop/text-decoration :css.val/underline}}
     "Add weeknote"]])
 
