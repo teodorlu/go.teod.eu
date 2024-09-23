@@ -32,17 +32,6 @@
    :theme/unobtrusive-color greyish
    :theme/emphasis-color bright-blue})
 
-(defn view-future-plans [theme]
-  [:div {:style {:css.prop/font-size "1.2rem" :css.prop/color (:theme/unobtrusive-color theme)}}
-   [:details
-    [:summary [:em {:style {:css.prop/font-variant :css.val/small-caps}} "Future plans?"]]
-    [:div {:style {:margin-top "0.5rem"}}
-     (for [idea ["add weeknote text field?"
-                 "add video roulette?"]]
-       [:div {:style {:css.prop/margin-left "0.8rem"
-                      :css.prop/color (:theme/primary-color theme)}}
-        "↝ " idea])]]])
-
 (defn view-links [theme]
   [:div {:style {:css.prop/font-size "1.2rem"
                  :css.prop/margin-top "1em"
@@ -154,7 +143,6 @@
                         }}
       (map (partial view-principle theme) principles)
       (view-links theme)
-      (view-future-plans theme)
       (add-weeknote-button theme)])))
 
 (def routes
