@@ -155,8 +155,7 @@
       (map (partial view-principle theme) principles)
       (view-links theme)
       (view-future-plans theme)
-      (when (= "localhost" (:server-name req))
-        (add-weeknote-button theme))])))
+      (add-weeknote-button theme)])))
 
 (def routes
   [[path/index #'principles-page]
