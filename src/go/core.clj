@@ -91,7 +91,7 @@
            (identity
             [:textarea {:style {:css.prop/width "100%"
                                 :css.prop/resize "vertical"
-                                :css.prop/height "15rem"
+                                :css.prop/height "10rem"
                                 :css.prop/border "1px solid white"
                                 :css.prop/color (:theme/emphasis-color theme)
                                 :css.prop/background-color (:theme/secondary-color theme)}
