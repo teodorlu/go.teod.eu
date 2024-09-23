@@ -7,11 +7,6 @@
   (:import
    [java.time Instant]))
 
-(comment
-  (reset! framework/state {})
-  @framework/state
-  ,)
-
 (set! *print-namespace-maps* false)
 
 (def bright-green "hsl(124, 100%, 88%)")
@@ -91,12 +86,6 @@
                      :hx-swap :htmx/outerHTML}
             "Save"]]))}))
 
-(comment
-
-  @framework/last-request
-  :form-params {"weeknote" "Hei :)"},
-  ,)
-
 (defn add-weeknote [req]
   (let [theme theme-blumoon]
     (when-let [weeknote (get-in req [:params "weeknote"])]
@@ -159,4 +148,5 @@
 
 (comment
   @framework/last-request
+  @framework/state
   ,)
