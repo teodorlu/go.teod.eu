@@ -63,28 +63,31 @@
         :else
         "🌊 🌊 🌊"))
 
-(defn add-weeknote-component [_req]
+(defn write-weeknote-fragment [_req]
   (let [theme theme-blumoon]
     {:status 200
      :body
      (str
       (hiccup2/html
-          [:form {:id :id/weeknote-editor}
-           (identity [:div {:style {:css.prop/color (:theme/primary-color theme)}}
-                      "Write your weeknote:"])
-           (identity
-            [:textarea {:style {:css.prop/width "100%"
-                                :css.prop/resize "vertical"
-                                :css.prop/height "10rem"
-                                :css.prop/border "1px solid white"
-                                :css.prop/color (:theme/emphasis-color theme)
-                                :css.prop/background-color (:theme/secondary-color theme)}
-                        :name "weeknote"
-                        :placeholder "text …"}])
-           [:button {:hx-post path/add-weeknote
-                     :hx-target (str "#" (name :id/weeknote-editor))
-                     :hx-swap :htmx/outerHTML}
-            "Save"]]))}))
+       [:form {:id :id/weeknote-editor}
+        (identity [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+                   "Write your weeknote:"])
+        (identity
+         [:textarea {:style {:css.prop/width "100%"
+                             :css.prop/resize "vertical"
+                             :css.prop/height "10rem"
+                             :css.prop/border "1px solid white"
+                             :css.prop/color (:theme/emphasis-color theme)
+                             :css.prop/background-color (:theme/secondary-color theme)}
+                     :name "weeknote"
+                     :placeholder "text …"}])
+        [:button {:hx-post path/add-weeknote
+                  :hx-target (str "#" (name :id/weeknote-editor))
+                  :hx-swap :htmx/outerHTML}
+         "Save"]
+        [:button {:hx-get path/add-weeknote-prompt
+                  :hx-target (str "#" (name :id/weeknote-editor))
+                  :hx-swap :htmx/outerHTML} "Abort"]]))}))
 
 (defn add-weeknote [req]
   (let [theme theme-blumoon]
@@ -117,6 +120,13 @@
                 :css.prop/text-decoration :css.val/underline}}
     "Add weeknote"]])
 
+(defn add-weeknote-prompt [_req]
+  (let [theme theme-blumoon]
+    {:status 200
+     :body
+     (str
+      (hiccup2/html (add-weeknote-button theme)))}))
+
 (defn principles-page
   [req]
   (let [theme theme-blumoon]
@@ -136,8 +146,9 @@
 
 (def routes
   [[path/index #'principles-page]
-   [path/add-weeknote {:get #'add-weeknote-component
-                       :post #'add-weeknote}]])
+   [path/add-weeknote {:get #'write-weeknote-fragment
+                       :post #'add-weeknote}]
+   [path/add-weeknote-prompt #'add-weeknote-prompt]])
 
 (defn start! [opts]
   (framework/start! #'routes opts))
