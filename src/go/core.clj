@@ -84,10 +84,11 @@
         [:button {:hx-post path/add-weeknote
                   :hx-target (str "#" (name :id/weeknote-editor))
                   :hx-swap :htmx/outerHTML}
-         "Save"]
+         "Store weeknote"]
+        [:span " "]
         [:button {:hx-get path/add-weeknote-prompt
                   :hx-target (str "#" (name :id/weeknote-editor))
-                  :hx-swap :htmx/outerHTML} "Abort"]]))}))
+                  :hx-swap :htmx/outerHTML} "Toss weeknote into the ether!"]]))}))
 
 (defn add-weeknote [req]
   (let [theme theme-blumoon]
