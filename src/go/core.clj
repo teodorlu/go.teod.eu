@@ -95,6 +95,16 @@
          (str "I will never submit!"
               " Instead, I, elect to toss this weeknote into the ether!")]]))}))
 
+(comment
+  ;; View weeknotes
+  (->> framework/state
+       deref
+       :weeknotes
+       (map :text)
+       (str/join "\n---\n")
+       println)
+  ,)
+
 (defn add-weeknote [req]
   (let [theme theme-blumoon]
     (when-let [weeknote (get-in req [:params "weeknote"])]
