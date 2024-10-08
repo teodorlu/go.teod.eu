@@ -70,7 +70,8 @@
      (str
       (hiccup2/html
        [:form {:id :id/weeknote-editor}
-        (identity [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+        (identity [:div {:style {:css.prop/color (:theme/primary-color theme)
+                                 :css.prop/font-size "1.2rem"}}
                    "Write your weeknote:"])
         (identity
          [:textarea {:style {:css.prop/width "100%"
@@ -78,7 +79,9 @@
                              :css.prop/height "10rem"
                              :css.prop/border "1px solid white"
                              :css.prop/color (:theme/emphasis-color theme)
-                             :css.prop/background-color (:theme/secondary-color theme)}
+                             :css.prop/background-color (:theme/secondary-color theme)
+                             :css.prop/font-size "0.9rem"
+                             :css.prop/padding "0.4rem"}
                      :name "weeknote"
                      :placeholder "text …"}])
         [:button {:hx-post path/add-weeknote
@@ -88,7 +91,9 @@
         [:span " "]
         [:button {:hx-get path/add-weeknote-prompt
                   :hx-target (str "#" (name :id/weeknote-editor))
-                  :hx-swap :htmx/outerHTML} "Never submit! Instead, toss this weeknote into the ether!"]]))}))
+                  :hx-swap :htmx/outerHTML}
+         (str "I will never submit!"
+              " Instead, I, toss this weeknote into the ether!")]]))}))
 
 (defn add-weeknote [req]
   (let [theme theme-blumoon]
