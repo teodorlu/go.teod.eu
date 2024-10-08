@@ -93,7 +93,7 @@
                   :hx-target (str "#" (name :id/weeknote-editor))
                   :hx-swap :htmx/outerHTML}
          (str "I will never submit!"
-              " Instead, I, toss this weeknote into the ether!")]]))}))
+              " Instead, I, elect to toss this weeknote into the ether!")]]))}))
 
 (defn add-weeknote [req]
   (let [theme theme-blumoon]
