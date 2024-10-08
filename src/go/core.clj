@@ -160,11 +160,38 @@
       (view-links theme)
       (add-weeknote-button theme)])))
 
+(defn view-weeknote [theme weeknote]
+  [:div
+   [:div [:em {:style {:css.prop/color (:theme/unobtrusive-color theme)
+                       :css.prop/font-size "0.8em"}}
+          (:timestamp weeknote)]]
+   (->> weeknote :text str/split-lines (interpose [:br]))])
+
+(defn weeknotes [_req]
+  (let [theme theme-blumoon]
+    (assert (valid-theme? theme))
+    (framework/page
+     {:title "Weeknotes" :theme theme}
+     [:section {:style {:css.prop/min-height "100%"
+                        :css.prop/display :css.val/flex
+                        :css.prop/flex-direction :css.val/column
+                        :css.prop/gap "2rem"
+                        :css.prop/justify-content :css.val/center
+                        :css.prop/line-height "2rem"
+                        }}
+      [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+       (->> framework/state
+            deref
+            :weeknotes
+            (map #(view-weeknote theme %))
+            (interpose [:hr]))]])))
+
 (def routes
   [[path/index #'principles-page]
    [path/add-weeknote {:get #'write-weeknote-fragment
                        :post #'add-weeknote}]
-   [path/add-weeknote-prompt #'add-weeknote-prompt]])
+   [path/add-weeknote-prompt #'add-weeknote-prompt]
+   [path/view-weeknotes #'weeknotes]])
 
 (defn start! [opts]
   (framework/start! #'routes opts))
