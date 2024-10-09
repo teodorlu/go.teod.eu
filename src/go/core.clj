@@ -3,7 +3,7 @@
    [clojure.string :as str]
    [go.framework :as framework]
    [go.path :as path]
-   [hiccup2.core :as hiccup2])
+   [replicant.string])
   (:import
    [java.time Instant]))
 
@@ -67,33 +67,31 @@
   (let [theme theme-blumoon]
     {:status 200
      :body
-     (str
-      (hiccup2/html
-       [:form {:id :id/weeknote-editor}
-        (identity [:div {:style {:css.prop/color (:theme/primary-color theme)
-                                 :css.prop/font-size "1.2rem"}}
-                   "Write your weeknote:"])
-        (identity
-         [:textarea {:style {:css.prop/width "100%"
-                             :css.prop/resize "vertical"
-                             :css.prop/height "10rem"
-                             :css.prop/border "1px solid white"
-                             :css.prop/color (:theme/emphasis-color theme)
-                             :css.prop/background-color (:theme/secondary-color theme)
-                             :css.prop/font-size "0.9rem"
-                             :css.prop/padding "0.4rem"}
-                     :name "weeknote"
-                     :placeholder "text …"}])
-        [:button {:hx-post path/add-weeknote
-                  :hx-target (str "#" (name :id/weeknote-editor))
-                  :hx-swap :htmx/outerHTML}
-         "Submit weeknote"]
-        [:span " "]
-        [:button {:hx-get path/add-weeknote-prompt
-                  :hx-target (str "#" (name :id/weeknote-editor))
-                  :hx-swap :htmx/outerHTML}
-         (str "I will never submit!"
-              " Instead, I, elect to toss this weeknote into the ether!")]]))}))
+     (replicant.string/render
+      [:form {:id :id/weeknote-editor}
+       [:div {:style {:css.prop/color (:theme/primary-color theme)
+                      :css.prop/font-size "1.2rem"}}
+        "Write your weeknote:"]
+       [:textarea {:style {:css.prop/width "100%"
+                           :css.prop/resize "vertical"
+                           :css.prop/height "10rem"
+                           :css.prop/border "1px solid white"
+                           :css.prop/color (:theme/emphasis-color theme)
+                           :css.prop/background-color (:theme/secondary-color theme)
+                           :css.prop/font-size "0.9rem"
+                           :css.prop/padding "0.4rem"}
+                   :name "weeknote"
+                   :placeholder "text …"}]
+       [:button {:hx-post path/add-weeknote
+                 :hx-target (str "#" (name :id/weeknote-editor))
+                 :hx-swap :htmx/outerHTML}
+        "Submit weeknote"]
+       [:span " "]
+       [:button {:hx-get path/add-weeknote-prompt
+                 :hx-target (str "#" (name :id/weeknote-editor))
+                 :hx-swap :htmx/outerHTML}
+        (str "I will never submit!"
+             " Instead, I, elect to toss this weeknote into the ether!")]])}))
 
 (comment
   ;; View weeknotes
@@ -114,18 +112,16 @@
               :timestamp (str (Instant/now))})
       {:status 200
        :body
-       (str
-        (hiccup2/html
-            [:div {:id :id/weeknote-editor}
-             (identity
-              [:div {:style {:css.prop/color (:theme/primary-color theme)}}
-               "Weeknote added!"])
-             [:a {:hx-get path/add-weeknote
-                  :hx-target (str "#" (name :id/weeknote-editor))
-                  :hx-swap :htmx/outerHTML
-                  :style {:css.prop/color (:theme/primary-color theme)
-                          :css.prop/text-decoration :css.val/underline}}
-              "If you wish, add another."]]))})))
+       (replicant.string/render
+        [:div {:id :id/weeknote-editor}
+         [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+          "Weeknote added!"]
+         [:a {:hx-get path/add-weeknote
+              :hx-target (str "#" (name :id/weeknote-editor))
+              :hx-swap :htmx/outerHTML
+              :style {:css.prop/color (:theme/primary-color theme)
+                      :css.prop/text-decoration :css.val/underline}}
+          "If you wish, add another."]])})))
 
 (defn add-weeknote-button [theme]
   [:div {:id :id/weeknote-editor}
@@ -140,8 +136,7 @@
   (let [theme theme-blumoon]
     {:status 200
      :body
-     (str
-      (hiccup2/html (add-weeknote-button theme)))}))
+     (replicant.string/render (add-weeknote-button theme))}))
 
 (defn principles-page
   [req]
