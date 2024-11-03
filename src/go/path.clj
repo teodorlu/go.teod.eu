@@ -3,5 +3,5 @@
 (def index "/")
 (def add-weeknote "/add-weeknote")
 (def add-weeknote-prompt "/add-weeknote-prompt")
-(def view-weeknotes (str "/" (System/getenv "WEEKNOTE_ACCESSCODE")))
+(def view-weeknotes (when-let [code (System/getenv "WEEKNOTE_ACCESSCODE")] (str "/" code)))
 (def play-teod-eu "https://play.teod.eu")

@@ -182,11 +182,13 @@
             (interpose [:hr]))]])))
 
 (def routes
-  [[path/index #'principles-page]
-   [path/add-weeknote {:get #'write-weeknote-fragment
-                       :post #'add-weeknote}]
-   [path/add-weeknote-prompt #'add-weeknote-prompt]
-   [path/view-weeknotes #'weeknotes]])
+  (->> [[path/index #'principles-page]
+        [path/add-weeknote {:get #'write-weeknote-fragment
+                            :post #'add-weeknote}]
+        [path/add-weeknote-prompt #'add-weeknote-prompt]
+        [path/view-weeknotes #'weeknotes]]
+       (filter first)
+       (vec)))
 
 (defn start! [opts]
   (framework/start! #'routes opts))
