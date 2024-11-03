@@ -184,6 +184,10 @@
        [:a {:href bretroulette/refs-url
             :style {:css.prop/color (:theme/primary-color theme)}}
         bretroulette/refs-url] "."]
+      [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+       [:a {:href path/bretroulette
+            :style {:css.prop/color (:theme/primary-color theme)}}
+        "Reroll"] "."]
       (view-links theme)])))
 
 (defn view-weeknote [theme weeknote]
