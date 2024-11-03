@@ -6,14 +6,20 @@
 ;; https://worrydream.com/refs/ is a treasure trove!
 
 (def refs-url "https://worrydream.com/refs/")
-(def refs (slurp refs-url))
-(def refs-hiccup (-> refs hickory/parse hickory/as-hiccup))
-(def references
-  (->> (first (filter vector? refs-hiccup))
-       (lookup/select '[:a])
+
+(defn refs-url->references [url]
+  (->> (slurp url)
+       hickory/parse hickory/as-hiccup
+       (filter vector?)
+       first
+       (lookup/select 'a)
        (map (fn [ref-hiccup]
               {:text (lookup/text ref-hiccup)
-               :uri (str refs-url (:href (lookup/attrs ref-hiccup)))}))))
+               :uri (str url (:href (lookup/attrs ref-hiccup)))}))))
+
+(def references (future (refs-url->references refs-url)))
 
 (defn random-ref []
-  (rand-nth references))
+  (rand-nth @references))
+
+#_(random-ref)
