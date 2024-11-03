@@ -1,6 +1,7 @@
 (ns go.core
   (:require
    [clojure.string :as str]
+   [go.bretroulette :as bretroulette]
    [go.framework :as framework]
    [go.path :as path]
    [replicant.string])
@@ -31,9 +32,14 @@
   [:div {:style {:css.prop/font-size "1.2rem"
                  :css.prop/margin-top "1em"
                  :css.prop/color (:theme/unobtrusive-color theme)}}
-   [:a {:href path/play-teod-eu
-        :style {:css.prop/color (:theme/unobtrusive-color theme)}}
-    "play.teod.eu"]])
+   (interpose
+    " · "
+    (for [{:keys [href text]} [{:href path/index :text "Principles"}
+                               {:href path/bretroulette :text "Bret Roulette"}
+                               {:href path/play-teod-eu :text "play.teod.eu"}]]
+      [:a {:href href
+           :style {:css.prop/color (:theme/unobtrusive-color theme)}}
+       text]))])
 
 (def principles
   (->> ["Balance." "Body ↔ Mind ↔ Emotions."
@@ -49,7 +55,7 @@
 
 (defn view-principle [theme principle]
   [:div
-    {:style {:css.prop/font-size "1.8rem"}}
+   {:style {:css.prop/font-size "1.8rem"}}
    [:span {:style {:css.prop/color (:theme/emphasis-color theme )}}
     (str/upper-case (:principle/core principle))]
    " "
@@ -155,6 +161,31 @@
       (view-links theme)
       (add-weeknote-button theme)])))
 
+(defn bretroulette-page
+  [_req]
+  (let [theme theme-blumoon
+        {:keys [text uri]} (bretroulette/random-ref)]
+    (assert (valid-theme? theme))
+    (framework/page
+     {:title "Bret Roulette" :theme theme}
+     [:section {:style {:css.prop/height "100%"
+                        :css.prop/display :css.val/flex
+                        :css.prop/flex-direction :css.val/column
+                        :css.prop/gap "2rem"
+                        :css.prop/justify-content :css.val/center
+                        :css.prop/line-height "2rem"
+                        }}
+      [:div [:a {:style {:css.prop/font-size "1.8rem"
+                         :css.prop/color (:theme/emphasis-color theme)}
+                 :href uri}
+             text]]
+      [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+       "Picked at random from Bret Victor's treasure trove of references at "
+       [:a {:href bretroulette/refs-url
+            :style {:css.prop/color (:theme/primary-color theme)}}
+        bretroulette/refs-url] "."]
+      (view-links theme)])))
+
 (defn view-weeknote [theme weeknote]
   [:div
    [:div [:em {:style {:css.prop/color (:theme/unobtrusive-color theme)
@@ -186,7 +217,8 @@
         [path/add-weeknote {:get #'write-weeknote-fragment
                             :post #'add-weeknote}]
         [path/add-weeknote-prompt #'add-weeknote-prompt]
-        [path/view-weeknotes #'weeknotes]]
+        [path/view-weeknotes #'weeknotes]
+        [path/bretroulette #'bretroulette-page]]
        (filter first)
        (vec)))
 

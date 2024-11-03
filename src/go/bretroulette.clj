@@ -1,4 +1,4 @@
-(ns go.bretroutlette
+(ns go.bretroulette
   (:require
    [hickory.core :as hickory]
    [lookup.core :as lookup]))
