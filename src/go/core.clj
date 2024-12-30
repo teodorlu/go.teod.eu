@@ -36,7 +36,7 @@
     " · "
     (for [{:keys [href text]} [{:href tplay-root
                                 :text "play.teod.eu"}
-                               {:href tgo-root
+                               {:href (str tgo-root "/")
                                 :text "go.teod.eu"}
                                {:href (str tgo-root "/bretroulette")
                                 :text "Bret Roulette"}]]
@@ -44,8 +44,8 @@
            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
        text]))])
 
-(defn linkroll-go [theme]
-  (linkroll theme "https://play.teod.eu/" ""))
+(defn linkroll-from-tgo [theme]
+  (linkroll theme "https://play.teod.eu" ""))
 
 (def principles
   (->> ["Balance." "Body ↔ Mind ↔ Emotions."
@@ -164,7 +164,7 @@
                         :css.prop/line-height "2rem"
                         }}
       (map (partial view-principle theme) principles)
-      (linkroll-go theme)
+      (linkroll-from-tgo theme)
       (add-weeknote-button theme)])))
 
 (defn bretroulette-page
@@ -194,7 +194,7 @@
        [:a {:href path/bretroulette
             :style {:css.prop/color (:theme/primary-color theme)}}
         "Reroll"] "."]
-      (linkroll-go theme)])))
+      (linkroll-from-tgo theme)])))
 
 (defn view-weeknote [theme weeknote]
   [:div
