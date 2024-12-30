@@ -70,6 +70,7 @@
   ^{:doc "An atom containing the last request that was received by the system. Extremely useful for writing and debugging handler functions."}
   last-request
   (atom {}))
+
 (defn wrap-save-request
   "Middleware that saves the most recent request to the `last-request` atom."
   [f]
