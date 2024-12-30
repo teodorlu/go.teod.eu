@@ -28,18 +28,24 @@
    :theme/unobtrusive-color greyish
    :theme/emphasis-color bright-blue})
 
-(defn view-links [theme]
+(defn linkroll [theme tplay-root tgo-root]
   [:div {:style {:css.prop/font-size "1.2rem"
                  :css.prop/margin-top "1em"
                  :css.prop/color (:theme/unobtrusive-color theme)}}
    (interpose
     " · "
-    (for [{:keys [href text]} [{:href path/index :text "Principles"}
-                               {:href path/bretroulette :text "Bret Roulette"}
-                               {:href path/play-teod-eu :text "play.teod.eu"}]]
+    (for [{:keys [href text]} [{:href tplay-root
+                                :text "play.teod.eu"}
+                               {:href tgo-root
+                                :text "go.teod.eu"}
+                               {:href (str tgo-root "/bretroulette")
+                                :text "Bret Roulette"}]]
       [:a {:href href
            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
        text]))])
+
+(defn linkroll-go [theme]
+  (linkroll theme "https://play.teod.eu/" ""))
 
 (def principles
   (->> ["Balance." "Body ↔ Mind ↔ Emotions."
@@ -158,7 +164,7 @@
                         :css.prop/line-height "2rem"
                         }}
       (map (partial view-principle theme) principles)
-      (view-links theme)
+      (linkroll-go theme)
       (add-weeknote-button theme)])))
 
 (defn bretroulette-page
@@ -188,7 +194,7 @@
        [:a {:href path/bretroulette
             :style {:css.prop/color (:theme/primary-color theme)}}
         "Reroll"] "."]
-      (view-links theme)])))
+      (linkroll-go theme)])))
 
 (defn view-weeknote [theme weeknote]
   [:div
