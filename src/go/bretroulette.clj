@@ -45,7 +45,7 @@
 (defn pdf? [ref] (some-> (::uri ref) (str/ends-with? ".pdf")))
 
 (defn refs->wget-download-command [refs]
-  (str "cat << EOF | wget -q --input-file=-"
+  (str "wget -q --input-file=- << EOF"
        "\n"
        (str/join "\n"
                  (map ::uri refs))
