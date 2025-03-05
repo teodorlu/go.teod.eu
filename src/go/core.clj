@@ -170,11 +170,11 @@
 (defn bretroulette-page
   [_req]
   (let [theme theme-blumoon
-        {:keys [text uri]} (bretroulette/random-ref)]
+        ref (bretroulette/random-ref)]
     (assert (valid-theme? theme))
     (framework/page
      {:title "Bret Roulette" :theme theme}
-     [:section {:style {:css.prop/height "100%"
+     [:section {:style {:css.prop/min-height "100%"
                         :css.prop/display :css.val/flex
                         :css.prop/flex-direction :css.val/column
                         :css.prop/gap "2rem"
@@ -183,8 +183,8 @@
                         }}
       [:div [:a {:style {:css.prop/font-size "1.8rem"
                          :css.prop/color (:theme/emphasis-color theme)}
-                 :href uri}
-             text]]
+                 :href (::bretroulette/uri ref)}
+             (::bretroulette/text ref)]]
       [:div {:style {:css.prop/color (:theme/primary-color theme)}}
        "Picked at random from Bret Victor's treasure trove of references at "
        [:a {:href bretroulette/refs-url
@@ -194,6 +194,14 @@
        [:a {:href path/bretroulette
             :style {:css.prop/color (:theme/primary-color theme)}}
         "Reroll"] "."]
+
+      [:div {:style {:css.prop/color (:theme/primary-color theme)}}
+       [:details [:summary "Download PDFs with wget"]
+        [:pre {:style {:css.prop/font-size "0.8rem"
+                       :css.prop/line-height "0.9rem"
+                       :css.prop/margin-left "1rem"}}
+         (bretroulette/refs->wget-download-command
+          (filter bretroulette/pdf? @bretroulette/references))]]]
       (linkroll-from-tgo theme)])))
 
 (defn view-weeknote [theme weeknote]
