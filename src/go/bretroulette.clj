@@ -32,11 +32,11 @@
 
 (def references (future (refs-url->references refs-url)))
 
-(defn random-ref []
+(defn spin []
   (rand-nth @references))
 
 (comment
-  (random-ref)
+  (spin)
   (def hiccup (hickory/as-hiccup (hickory/parse (slurp refs-url))))
   (find-reference-elements hiccup)
 

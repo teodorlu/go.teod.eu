@@ -170,7 +170,7 @@
 (defn bretroulette-page
   [_req]
   (let [theme theme-blumoon
-        ref (bretroulette/random-ref)]
+        ref (bretroulette/spin)]
     (assert (valid-theme? theme))
     (framework/page
      {:title "Bret Roulette" :theme theme}
