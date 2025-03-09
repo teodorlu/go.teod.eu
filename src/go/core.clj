@@ -3,6 +3,7 @@
    [clojure.string :as str]
    [go.bretroulette :as bretroulette]
    [go.framework :as framework]
+   [go.notes :as notes]
    [go.path :as path]
    [replicant.string])
   (:import
@@ -39,7 +40,9 @@
                                {:href (str tgo-root "/")
                                 :text "go.teod.eu"}
                                {:href (str tgo-root "/bretroulette")
-                                :text "Bret Roulette"}]]
+                                :text "Bret Roulette"}
+                               {:href (str tgo-root "/notes")
+                                :text "Notes"}]]
       [:a {:href href
            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
        text]))])
@@ -230,13 +233,17 @@
             (map #(view-weeknote theme %))
             (interpose [:hr]))]])))
 
+(defn notes [_]
+  notes/view)
+
 (def routes
   (->> [[path/index #'principles-page]
         [path/add-weeknote {:get #'write-weeknote-fragment
                             :post #'add-weeknote}]
         [path/add-weeknote-prompt #'add-weeknote-prompt]
         [path/view-weeknotes #'weeknotes]
-        [path/bretroulette #'bretroulette-page]]
+        [path/bretroulette #'bretroulette-page]
+        [path/notes #'notes]]
        (filter first)
        (vec)))
 
