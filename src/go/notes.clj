@@ -12,7 +12,7 @@
      "where portfolio shows completely different variations."
      "that's where I want to go."]]])
 
-(require 'hiccup2.core)
+e(require 'hiccup2.core)
 (require 'hiccup.page)
 
 (def view
@@ -26,8 +26,10 @@
     [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
    [:body
     [:pre
-     (for [[head more] notes]
-       (list head "\n"
-             (when more
-               (for [line more]
-                 (str "  " line "\n")))))]]))
+     (->>
+      (for [[head more] notes]
+        (list [:strong head] "\n"
+              (when more
+                (for [line more]
+                  (str "  " line "\n")))))
+      (interpose "\n"))]]))
