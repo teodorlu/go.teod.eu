@@ -3,7 +3,6 @@
    [clojure.string :as str]
    [go.bretroulette :as bretroulette]
    [go.framework :as framework]
-   [go.notes :as notes]
    [go.path :as path]
    [replicant.string])
   (:import
@@ -35,14 +34,13 @@
                  :css.prop/color (:theme/unobtrusive-color theme)}}
    (interpose
     " · "
-    (for [{:keys [href text]} [{:href tplay-root
-                                :text "play.teod.eu"}
-                               {:href (str tgo-root "/")
-                                :text "go.teod.eu"}
-                               {:href (str tgo-root "/bretroulette")
-                                :text "Bret Roulette"}
-                               {:href (str tgo-root "/notes")
-                                :text "Notes"}]]
+    (for [{:keys [href text]}
+          [{:href tplay-root :text "play.teod.eu"}
+           {:href (str tgo-root "/") :text "go.teod.eu"}
+           {:href (str tgo-root "/bretroulette") :text "Bret Roulette"}
+           {:href (str tgo-root "/notes") :text "Notes"}
+           {:href (str tgo-root "/flexing") :text "Flexing"}
+           ]]
       [:a {:href href
            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
        text]))])
@@ -73,10 +71,10 @@
 
 (defn req->title [req]
   (cond (= "localhost" (:server-name req))
-        "🩵 local"
+        "🩵 go principled"
 
         :else
-        "🌊 🌊 🌊"))
+        "🌊 go principled"))
 
 (defn write-weeknote-fragment [_req]
   (let [theme theme-blumoon]
@@ -176,7 +174,7 @@
         ref (bretroulette/spin)]
     (assert (valid-theme? theme))
     (framework/page
-     {:title "Bret Roulette" :theme theme}
+     {:title "roll for serendipity in Bret's refs" :theme theme}
      [:section {:style {:css.prop/min-height "100%"
                         :css.prop/display :css.val/flex
                         :css.prop/flex-direction :css.val/column
@@ -233,8 +231,9 @@
             (map #(view-weeknote theme %))
             (interpose [:hr]))]])))
 
-(defn notes [_]
-  notes/view)
+(require 'go.notes 'go.flexing)
+(defn notes [_] go.notes/view)
+(defn flexing [_] go.flexing/view)
 
 (def routes
   (->> [[path/index #'principles-page]
@@ -243,7 +242,9 @@
         [path/add-weeknote-prompt #'add-weeknote-prompt]
         [path/view-weeknotes #'weeknotes]
         [path/bretroulette #'bretroulette-page]
-        [path/notes #'notes]]
+        [path/notes #'notes]
+        [path/flexing #'flexing]
+        ]
        (filter first)
        (vec)))
 

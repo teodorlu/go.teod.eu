@@ -7,3 +7,4 @@
 (def play-teod-eu "https://play.teod.eu")
 (def bretroulette "/bretroulette")
 (def notes "/notes")
+(def flexing "/flexing")
