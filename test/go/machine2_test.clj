@@ -2,11 +2,7 @@
   (:require [clojure.test :refer [deftest is testing]]
             [go.machine2 :as m]))
 
-(comment
-  (clojure.repl.deps/sync-deps)
-  (set! *print-namespace-maps* false)
-
-  )
+#_(set! *print-namespace-maps* false)
 
 (deftest done
   (is (m/done? (m/create 4 inc #{4}))))
@@ -43,15 +39,3 @@
                            (partial swap! !log conj))
            (m/run machine)
            @!log))))
-
-(comment
-
-  ;; lite tilstandsmaskin-bibliotek
-  ;; jeg tenkte på importen, og hvordan det ikke alltid er lett å se hva den driver med.
-  (let [machine (m/create 0 inc #{1000})]
-    ;; laget for å hekte på tap> av tilstand
-    (m/add-reporter machine tap>)
-    (m/run machine))
-  ;; kan også avsluttes, uten at det vises akkurat i dette eksempelet.
-
-  )
