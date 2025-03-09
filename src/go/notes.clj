@@ -28,12 +28,18 @@
     [:title "notes"]
     [:meta {:charset "utf-8"}]
     [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
-   [:body
-    [:pre
-     (->>
-      (for [[head more] notes]
-        (list [:strong head] "\n"
-              (when more
-                (for [line more]
-                  (str "  " line "\n")))))
-      (interpose "\n"))]]))
+   [:body {:style {:margin 0}}
+    [:div {:style {:margin "2px" :border "1px solid #00EAFF"}}
+     [:div {:style {:margin "2px" :border "1px solid #FF9E37"}}
+      [:div {:style {:margin "2px" :border "1px solid #D7FF0F"}}
+       [:div {:style {:margin "2px" :border "1px solid #0FFF6F"}}
+        [:div {:style {:margin "2px" :border "1px solid #E8CD00"}}
+         [:div {:style {:margin "2px" :border "px solid #00EAFF"}}
+          [:pre {:style {:margin 0}}
+           (->>
+            (for [[head more] notes]
+              (list [:strong head] "\n"
+                    (when more
+                      (for [line more]
+                        (str "  " line "\n")))))
+            (interpose "\n"))]]]]]]]]))
