@@ -12,7 +12,7 @@
      "where portfolio shows completely different variations."
      "that's where I want to go."]]])
 
-e(require 'hiccup2.core)
+(require 'hiccup2.core)
 (require 'hiccup.page)
 
 (def view
