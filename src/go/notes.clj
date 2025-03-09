@@ -10,7 +10,11 @@
    ["Different designs on go.teod.eu?"
     ["and not just different styles, different _designs_."
      "where portfolio shows completely different variations."
-     "that's where I want to go."]]])
+     "that's where I want to go."]]
+   ["Short feedback loops considered essential"
+    ["When tweaking designs towards perfection, a long feedback loop is death."
+     "I feel the deadness approaching as I write this. I evaluate, alt+tab and refresh. It's too slow."
+     "Is Portfolio the tool I want to use? 🤔"]]])
 
 (require 'hiccup2.core)
 (require 'hiccup.page)
