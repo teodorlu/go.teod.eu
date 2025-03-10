@@ -40,10 +40,20 @@
            {:href (str tgo-root "/bretroulette") :text "Bret Roulette"}
            {:href (str tgo-root "/notes") :text "Notes"}
            {:href (str tgo-root "/flexing") :text "Flexing"}
+           {:href (str tgo-root path/c2) :text "2"}
            ]]
       [:a {:href href
            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
        text]))])
+
+(let [tplay-root "https://play.teod.eu"
+      tgo-root ""]
+  [{:href tplay-root :text "play.teod.eu"}
+   {:href (str tgo-root "/") :text "go.teod.eu"}
+   {:href (str tgo-root "/bretroulette") :text "Bret Roulette"}
+   {:href (str tgo-root "/notes") :text "Notes"}
+   {:href (str tgo-root "/flexing") :text "Flexing"}
+   {:href (str tgo-root "/2") :text "2"}])
 
 (defn linkroll-from-tgo [theme]
   (linkroll theme "https://play.teod.eu" ""))
@@ -231,7 +241,7 @@
             (map #(view-weeknote theme %))
             (interpose [:hr]))]])))
 
-(require 'go.notes 'go.flexing)
+(require 'go.notes 'go.flexing 'go.core2)
 (defn notes [_] go.notes/view)
 (defn flexing [_] go.flexing/view)
 
@@ -244,6 +254,7 @@
         [path/bretroulette #'bretroulette-page]
         [path/notes #'notes]
         [path/flexing #'flexing]
+        [path/c2 #'go.core2/view]
         ]
        (filter first)
        (vec)))
