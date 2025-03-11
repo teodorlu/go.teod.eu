@@ -8,7 +8,8 @@
 ;; content
 
 (def principles
-  [[::text [::core "Balance."] "Body ↔ Mind ↔ Emotions."]
+  [::box
+   [::text [::core "Balance."] "Body ↔ Mind ↔ Emotions."]
    [::text [::core "Habits for action"] "get you started."]
    [::text [::core "Creation & curiosity"] "over consumption & passivity."]
    [::text [::core "Rest or focus?"] "Strive for balance. Body ↔ Mind ↔ Emotions."]])
@@ -34,7 +35,8 @@
     "Is Portfolio the tool I want to use? 🤔"]])
 
 (def linkroll
-  [[::link "https://play.teod.eu" "play.teod.eu"]
+  [::box
+   [::link "https://play.teod.eu" "play.teod.eu"]
    [::link "/" "go.teod.eu"]
    [::link "/bretroulette" "Bret Roulette"]
    [::link "/notes" "Notes"]
@@ -52,13 +54,14 @@
 (def core? (el-pred ::core))
 (def text? (el-pred ::text))
 (def box? (el-pred ::box))
+(def link? (el-pred ::link))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; designs
 
 (defn rounded [content]
   [:div {:style {:height "100%"
-                 :margin "10px"
+                 ;; :margin "10px"
                  :border "1px solid #00EAFF"
                  :border-radius "10px"
                  :padding "5px 7px 5px 7px"}}
@@ -77,7 +80,10 @@
 
          (box? el)
          (into [:pre {:style {:margin 0}}]
-               (rest el))
+               (interpose "\n\n" (rest el)))
+
+         (link? el)
+         [:a {:style {:color "white"} :href (nth el 1)} (nth el 2)]
 
          :else el))
      content)]])
@@ -99,5 +105,10 @@
     [:title "exploring taste"]
     [:meta {:charset "utf-8"}]
     [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
-   [:body {:style {:margin 0}}
-    (rounded notes)]))
+   [:body {:style {:margin 0 :padding "15px"}}
+    (rounded notes)
+    [:div {:style {:height "15px"}}]
+    (rounded principles)
+    [:div {:style {:height "15px"}}]
+    (rounded linkroll)
+    ]))
