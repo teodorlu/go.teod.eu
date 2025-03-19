@@ -190,17 +190,19 @@
                         :css.prop/flex-direction :css.val/column
                         :css.prop/gap "2rem"
                         :css.prop/justify-content :css.val/center
-                        :css.prop/line-height "2rem"
-                        }}
+                        :css.prop/line-height "2rem"}}
+
       [:div [:a {:style {:css.prop/font-size "1.8rem"
                          :css.prop/color (:theme/emphasis-color theme)}
                  :href (::bretroulette/uri ref)}
              (::bretroulette/text ref)]]
+
       [:div {:style {:css.prop/color (:theme/primary-color theme)}}
        "Picked at random from Bret Victor's treasure trove of references at "
        [:a {:href bretroulette/refs-url
             :style {:css.prop/color (:theme/primary-color theme)}}
         bretroulette/refs-url] "."]
+
       [:div {:style {:css.prop/color (:theme/primary-color theme)}}
        [:a {:href path/bretroulette
             :style {:css.prop/color (:theme/primary-color theme)}}
@@ -213,6 +215,16 @@
                        :css.prop/margin-left "1rem"}}
          (bretroulette/refs->wget-download-command
           (filter bretroulette/pdf? @bretroulette/references))]]]
+
+      [:div {:style {:css.prop/font-size "1.2rem"
+                     :css.prop/margin-top "1em"
+                     :css.prop/color (:theme/unobtrusive-color theme)}}
+       "See also "
+       [:a {:href "https://oro.open.ac.uk/39253/8/Designerly%20Ways%20of%20Knowing%20DS.pdf"
+            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
+        "Designerly ways of knowing"]
+       " (1982, Nigel Cross)"]
+
       (linkroll-from-tgo theme)])))
 
 (defn view-weeknote [theme weeknote]
