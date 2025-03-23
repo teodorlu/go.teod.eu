@@ -41,6 +41,20 @@
         (for [{:keys [root path text]} path/navigation]
           [::link (str root path) text])))
 
+(require '[clojure.walk :refer [postwalk]])
+(require '[go.rounded :as rounded])
+
+(defn postwalk-some [f form] (postwalk #(or (f %) %) form))
+
+(def rebase-to-rounded-1
+  {::box ::rounded/hbox
+   ::text ::rounded/text
+   ::core ::rounded/core
+   ::link ::rounded/link})
+
+(defn rebase-to-rounded [content]
+  (postwalk-some rebase-to-rounded-1 content))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; design helpers
 
@@ -109,5 +123,4 @@
     [:div {:style {:height "15px"}}]
     (rounded principles)
     [:div {:style {:height "15px"}}]
-    (rounded linkroll)
-    ]))
+    (rounded/rounded (rebase-to-rounded linkroll))]))
