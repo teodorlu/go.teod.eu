@@ -9,3 +9,4 @@
 (def notes "/notes")
 (def flexing "/flexing")
 (def c2 "/c2")
+(def refs "/refs")
