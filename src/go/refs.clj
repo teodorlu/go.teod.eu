@@ -64,7 +64,7 @@
    [::rounded/hbox
     [::rounded/text
      [::rounded/core "ENGINEERING FOR VARIATION"]
-     "Room for variation is taken as a design constraint."
+     "Space for variation is a design constraint."
      "Science 🌀 Art"
      "Engineering 🌀 Design"]]))
 
