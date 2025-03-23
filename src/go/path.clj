@@ -21,7 +21,7 @@
   [{:root tplay :path "/" :text "play.teod.eu"}
    {:root tgo :path "/" :text "go.teod.eu"}
    {:root tgo :path "/bretroulette" :text "Bret Roulette"}
-   {:root tgo :path refs :text "references"}
+   {:root tgo :path refs :text "refs"}
    {:root tgo :path "/notes" :text "Notes"}
    {:root tgo :path "/flexing" :text "Flexing"}
    {:root tgo :path c2 :text "2"}])

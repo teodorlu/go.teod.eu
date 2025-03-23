@@ -1,18 +1,11 @@
 (ns go.refs
-  "
-In the spirit of Bret Victor's references, I too want to keep my own references.
+  "Start collecting my own references. For now, just link. In the future, consider
+  storing PDFs locally.")
 
-- I want to store PDFs here - with Garden Storage
-- I want to link to other sources
-- I want this to be only the good stuff - whereas play.teod.eu is \"everything\"
-
-Not sure if \"refs\" is quite the right word.
-The sense in which I use it is a bit different.
-
-But let's leave that discussion for later.
-
-1. Get a start going
-2. Continue later.")
+(def motivation
+  ["We learn collectively by briding knowledge."
+   "We bridge knowledge with explicit references."
+   "Therefore, I refer to my sources."])
 
 (def my-refs
   #{{:title "Designerly ways of knowing"
@@ -31,18 +24,21 @@ But let's leave that discussion for later.
      :source "https://www.youtube.com/watch?v=TeXCvh5X5w0"
      :novelty "An argument that design and engineering are and should be closely tied together"}})
 
-(def motivation
-  [::vbox
-   [::text
-    [::core "Why?"]
-    "We learn collectively by briding knowledge."
-    "We bridge knowledge with explicit references."
-    "Therefore, I refer to my sources."]])
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; PRESENTATION
+
+(require '[go.rounded :as rounded])
+
+(defn motivation->content [motivation]
+  [::rounded/vbox
+   (into [::rounded/text
+          [::rounded/core "Why?"]]
+         motivation)])
 
 (defn refs->content [refs]
-  (into [::vbox]
+  (into [::rounded/vbox]
         (for [{:keys [title author year source novelty]} (sort-by :title refs)]
-          [::text [::link source title]
+          [::rounded/text [::rounded/link source title]
            (str "(" year ", " author ")")
            novelty])))
 
@@ -54,60 +50,23 @@ But let's leave that discussion for later.
 (require '[go.path :as path])
 
 (defn navitation->content [navigation]
-  (into [::hbox]
+  (into [::rounded/hbox]
         (for [{:keys [root path text]} navigation]
-          [::text [::link (str root path) text]])))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; DESIGN
-
-(require 'hiccup.page)
-(require '[clojure.walk :refer [postwalk]])
-
-(defn el-pred [tag]
-  (fn [el] (and (vector? el)
-                (= tag (first el)))))
-(def core? (el-pred ::core))
-(def text? (el-pred ::text))
-(def vbox? (el-pred ::vbox))
-(def hbox? (el-pred ::hbox))
-(def link? (el-pred ::link))
-
-(defn rounded [content]
-  [:div {:style {:height "100%"
-                 ;; :margin "10px"
-                 :border "1px solid #00EAFF"
-                 :border-radius "10px"
-                 :padding "5px 7px 5px 7px"}}
-   [:pre {:style {:margin 0}}
-    (postwalk
-     (fn [el]
-       (cond
-         (core? el)
-         (into [:strong]
-               (rest el))
-
-         (text? el)
-         (interpose "\n"
-                    (cons (second el)
-                          (map #(str "  " %) (rest (rest (filter some? el))))))
-
-         (vbox? el)
-         (into [:pre {:style {:margin 0}}]
-               (interpose "\n\n" (rest el)))
-
-         (hbox? el)
-         (into [:pre {:style {:margin 0}}]
-               (interpose " · " (rest el)))
-
-         (link? el)
-         [:a {:style {:color "white"} :href (nth el 1)} (nth el 2)]
-
-         :else el))
-     content)]])
+          [::rounded/text [::rounded/link (str root path) text]])))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; HTTP HANDLER
+f
+(require 'hiccup.page)
+
+(def ENGINEERING-FOR-VARIATION
+  (rounded/rounded
+   [::rounded/hbox
+    [::rounded/text
+     [::rounded/core "ENGINEERING FOR VARIATION"]
+     "Room for variation is taken as a design constraint."
+     "Science 🌀 Art"
+     "Engineering 🌀 Design"]]))
 
 (defn view [_]
   (hiccup.page/html5
@@ -115,13 +74,15 @@ But let's leave that discussion for later.
                           :color "white"
                           :background-color "black"}}
       [:head
-       [:title "exploring taste"]
+       [:title "exploring taste 🌀 engineering art"]
        [:meta {:charset "utf-8"}]
        [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
       [:body {:style {:margin 0 :padding "15px"}}
-       (rounded motivation)
+       ENGINEERING-FOR-VARIATION
        [:div {:style {:height "15px"}}]
-       (rounded (refs->content my-refs))
+       (rounded/rounded (motivation->content motivation))
        [:div {:style {:height "15px"}}]
-       (rounded (navitation->content path/navigation))
+       (rounded/rounded (refs->content my-refs))
+       [:div {:style {:height "15px"}}]
+       (rounded/rounded (navitation->content path/navigation))
        ]))

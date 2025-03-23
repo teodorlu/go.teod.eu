@@ -34,13 +34,12 @@
     "I feel the deadness approaching as I write this. I evaluate, alt+tab and refresh. It's too slow."
     "Is Portfolio the tool I want to use? 🤔"]])
 
+(require '[go.path :as path])
+
 (def linkroll
-  [::box
-   [::link "https://play.teod.eu" "play.teod.eu"]
-   [::link "/" "go.teod.eu"]
-   [::link "/bretroulette" "Bret Roulette"]
-   [::link "/notes" "Notes"]
-   [::link "/flexing" "Flexing"]])
+  (into [::box]
+        (for [{:keys [root path text]} path/navigation]
+          [::link (str root path) text])))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; design helpers
