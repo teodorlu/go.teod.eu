@@ -32,7 +32,7 @@ But let's leave that discussion for later.
      :novelty "An argument that design and engineering are and should be closely tied together"}})
 
 (defn refs->content [refs]
-  (into [::box]
+  (into [::vbox]
         (for [{:keys [title author year source novelty]} (sort-by :title refs)]
           [::text [::link source title]
            (str "(" year ", " author ")")
@@ -41,7 +41,7 @@ But let's leave that discussion for later.
 (require '[go.path :as path])
 
 (defn navitation->content [navigation]
-  (into [::box]
+  (into [::hbox]
         (for [{:keys [root path text]} navigation]
           [::text [::link (str root path) text]])))
 
@@ -56,7 +56,8 @@ But let's leave that discussion for later.
                 (= tag (first el)))))
 (def core? (el-pred ::core))
 (def text? (el-pred ::text))
-(def box? (el-pred ::box))
+(def vbox? (el-pred ::vbox))
+(def hbox? (el-pred ::hbox))
 (def link? (el-pred ::link))
 
 (defn rounded [content]
@@ -78,9 +79,13 @@ But let's leave that discussion for later.
                     (cons (second el)
                           (map #(str "  " %) (rest (rest (filter some? el))))))
 
-         (box? el)
+         (vbox? el)
          (into [:pre {:style {:margin 0}}]
                (interpose "\n\n" (rest el)))
+
+         (hbox? el)
+         (into [:pre {:style {:margin 0}}]
+               (interpose " · " (rest el)))
 
          (link? el)
          [:a {:style {:color "white"} :href (nth el 1)} (nth el 2)]
