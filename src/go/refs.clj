@@ -8,21 +8,26 @@
    "Therefore, I refer to my sources."])
 
 (def my-refs
-  #{{:title "Designerly ways of knowing"
+  #{{:title "Creative Computation"
+     :author "Jack Rusher"
+     :year "2019"
+     :source "https://www.youtube.com/watch?v=TeXCvh5X5w0"
+     :novelty "An argument that design and engineering are and should be closely tied together"}
+    {:title "Designerly ways of knowing"
      :author "Nigel Cross"
      :year "1982"
      :source "https://oro.open.ac.uk/39253/8/Designerly%20Ways%20of%20Knowing%20DS.pdf"
      :novelty "Explains what design IS"}
+    {:title "Taste"
+     :author "Peter Seibel"
+     :year "2015"
+     :source "https://gigamonkeys.com/taste/"}
     {:title "The niche design zine [Public draft]"
      :author "Itay Dreyfus"
      :year "2025"
      :source "https://docs.google.com/document/d/1Qjoy-JYwS6GKXaa7O828lT5kwfycDr9RHKrDCG2dXuk/edit?tab=t.0"
      :novelty "Makes a case for caring about and experimenting with design"}
-    {:title "Creative Computation"
-     :author "Jack Rusher"
-     :year "2019"
-     :source "https://www.youtube.com/watch?v=TeXCvh5X5w0"
-     :novelty "An argument that design and engineering are and should be closely tied together"}})
+    })
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PRESENTATION
