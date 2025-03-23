@@ -32,18 +32,11 @@
   [:div {:style {:css.prop/font-size "1.2rem"
                  :css.prop/margin-top "1em"
                  :css.prop/color (:theme/unobtrusive-color theme)}}
+
    (interpose
     " · "
-    (for [{:keys [href text]}
-          [{:href tplay-root :text "play.teod.eu"}
-           {:href (str tgo-root "/") :text "go.teod.eu"}
-           {:href (str tgo-root "/bretroulette") :text "Bret Roulette"}
-           {:href (str tgo-root path/refs) :text "references"}
-           {:href (str tgo-root "/notes") :text "Notes"}
-           {:href (str tgo-root "/flexing") :text "Flexing"}
-           {:href (str tgo-root path/c2) :text "2"}
-           ]]
-      [:a {:href href
+    (for [{:keys [root path text]} path/navigation]
+      [:a {:href (str root path)
            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
        text]))])
 ;; I don't like that this function mixes both style, content and logic
