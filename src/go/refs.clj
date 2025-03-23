@@ -31,12 +31,25 @@ But let's leave that discussion for later.
      :source "https://www.youtube.com/watch?v=TeXCvh5X5w0"
      :novelty "An argument that design and engineering are and should be closely tied together"}})
 
+(def motivation
+  [::vbox
+   [::text
+    [::core "Why?"]
+    "We learn collectively by briding knowledge."
+    "We bridge knowledge with explicit references."
+    "Therefore, I refer to my sources."]])
+
 (defn refs->content [refs]
   (into [::vbox]
         (for [{:keys [title author year source novelty]} (sort-by :title refs)]
           [::text [::link source title]
            (str "(" year ", " author ")")
            novelty])))
+
+(comment
+  [(refs->content my-refs)
+   motivation]
+  )
 
 (require '[go.path :as path])
 
@@ -106,6 +119,8 @@ But let's leave that discussion for later.
        [:meta {:charset "utf-8"}]
        [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
       [:body {:style {:margin 0 :padding "15px"}}
+       (rounded motivation)
+       [:div {:style {:height "15px"}}]
        (rounded (refs->content my-refs))
        [:div {:style {:height "15px"}}]
        (rounded (navitation->content path/navigation))
