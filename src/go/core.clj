@@ -38,6 +38,7 @@
           [{:href tplay-root :text "play.teod.eu"}
            {:href (str tgo-root "/") :text "go.teod.eu"}
            {:href (str tgo-root "/bretroulette") :text "Bret Roulette"}
+           {:href (str tgo-root path/refs) :text "references"}
            {:href (str tgo-root "/notes") :text "Notes"}
            {:href (str tgo-root "/flexing") :text "Flexing"}
            {:href (str tgo-root path/c2) :text "2"}
@@ -45,15 +46,9 @@
       [:a {:href href
            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
        text]))])
-
-(let [tplay-root "https://play.teod.eu"
-      tgo-root ""]
-  [{:href tplay-root :text "play.teod.eu"}
-   {:href (str tgo-root "/") :text "go.teod.eu"}
-   {:href (str tgo-root "/bretroulette") :text "Bret Roulette"}
-   {:href (str tgo-root "/notes") :text "Notes"}
-   {:href (str tgo-root "/flexing") :text "Flexing"}
-   {:href (str tgo-root "/2") :text "2"}])
+;; I don't like that this function mixes both style, content and logic
+;; I'd rather have a def
+#_(linkroll {} "" "")
 
 (defn linkroll-from-tgo [theme]
   (linkroll theme "https://play.teod.eu" ""))
@@ -215,15 +210,6 @@
                        :css.prop/margin-left "1rem"}}
          (bretroulette/refs->wget-download-command
           (filter bretroulette/pdf? @bretroulette/references))]]]
-
-      [:div {:style {:css.prop/font-size "1.2rem"
-                     :css.prop/margin-top "1em"
-                     :css.prop/color (:theme/unobtrusive-color theme)}}
-       "See also "
-       [:a {:href "https://oro.open.ac.uk/39253/8/Designerly%20Ways%20of%20Knowing%20DS.pdf"
-            :style {:css.prop/color (:theme/unobtrusive-color theme)}}
-        "Designerly ways of knowing"]
-       " (1982, Nigel Cross)"]
 
       (linkroll-from-tgo theme)])))
 

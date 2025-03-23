@@ -38,6 +38,13 @@ But let's leave that discussion for later.
            (str "(" year ", " author ")")
            novelty])))
 
+(require '[go.path :as path])
+
+(defn navitation->content [navigation]
+  (into [::box]
+        (for [{:keys [root path text]} navigation]
+          [::text [::link (str root path) text]])))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; DESIGN
 
@@ -94,4 +101,7 @@ But let's leave that discussion for later.
        [:meta {:charset "utf-8"}]
        [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
       [:body {:style {:margin 0 :padding "15px"}}
-       (rounded (refs->content my-refs))]))
+       (rounded (refs->content my-refs))
+       [:div {:style {:height "15px"}}]
+       (rounded (navitation->content path/navigation))
+       ]))
