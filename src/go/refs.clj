@@ -13,7 +13,7 @@
      :year "1982"
      :source "https://oro.open.ac.uk/39253/8/Designerly%20Ways%20of%20Knowing%20DS.pdf"
      :novelty "Explains what design IS"}
-    {:title "The nice design zine [Public draft]"
+    {:title "The niche design zine [Public draft]"
      :author "Itay Dreyfus"
      :year "2025"
      :source "https://docs.google.com/document/d/1Qjoy-JYwS6GKXaa7O828lT5kwfycDr9RHKrDCG2dXuk/edit?tab=t.0"
