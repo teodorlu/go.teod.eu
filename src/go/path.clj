@@ -13,7 +13,7 @@
 (def refs "/refs")
 
 ;; roots
-(def tplay "https://playt.teod.eu")
+(def tplay "https://play.teod.eu")
 (def tgo "")
 
 ;; navigation
