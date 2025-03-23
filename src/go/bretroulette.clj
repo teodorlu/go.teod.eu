@@ -47,8 +47,7 @@
 (defn refs->wget-download-command [refs]
   (str "wget -q --input-file=- << EOF"
        "\n"
-       (str/join "\n"
-                 (map ::uri refs))
+       (str/join "\n" (map ::uri refs))
        "\n"
        "EOF"))
 
