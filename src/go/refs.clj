@@ -18,14 +18,20 @@ But let's leave that discussion for later.
   #{{:title "Designerly ways of knowing"
      :author "Nigel Cross"
      :year "1982"
-     :source "https://oro.open.ac.uk/39253/8/Designerly%20Ways%20of%20Knowing%20DS.pdf"}})
+     :source "https://oro.open.ac.uk/39253/8/Designerly%20Ways%20of%20Knowing%20DS.pdf"
+     :novelty "Explains what design IS"}
+    {:title "The nice design zine [Public draft]"
+     :author "Itay Dreyfus"
+     :year "2025"
+     :source "https://docs.google.com/document/d/1Qjoy-JYwS6GKXaa7O828lT5kwfycDr9RHKrDCG2dXuk/edit?tab=t.0"
+     :novelty "Makes a case for caring about and experimenting with design"}})
 
 (defn refs->content [refs]
   (into [::box]
-        (for [{:keys [title author year source]} refs]
+        (for [{:keys [title author year source novelty]} (sort-by :title refs)]
           [::text [::link source title]
            (str "(" year ", " author ")")
-           "Explains what design IS"])))
+           novelty])))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; DESIGN
@@ -58,7 +64,7 @@ But let's leave that discussion for later.
          (text? el)
          (interpose "\n"
                     (cons (second el)
-                          (map #(str "  " %) (rest (rest el)))))
+                          (map #(str "  " %) (rest (rest (filter some? el))))))
 
          (box? el)
          (into [:pre {:style {:margin 0}}]
