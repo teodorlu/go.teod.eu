@@ -20,8 +20,6 @@
 (def navigation
   [{:root tplay :path "/" :text "play.teod.eu"}
    {:root tgo :path "/" :text "go.teod.eu"}
-
-   {:root tgo :path "/" :text "go.teod.eu"}
    {:root tgo :path "/bretroulette" :text "Bret Roulette"}
    {:root tgo :path refs :text "references"}
    {:root tgo :path "/notes" :text "Notes"}
