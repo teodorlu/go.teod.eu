@@ -24,7 +24,12 @@ But let's leave that discussion for later.
      :author "Itay Dreyfus"
      :year "2025"
      :source "https://docs.google.com/document/d/1Qjoy-JYwS6GKXaa7O828lT5kwfycDr9RHKrDCG2dXuk/edit?tab=t.0"
-     :novelty "Makes a case for caring about and experimenting with design"}})
+     :novelty "Makes a case for caring about and experimenting with design"}
+    {:title "Creative Computation"
+     :author "Jack Rusher"
+     :year "2019"
+     :source "https://www.youtube.com/watch?v=TeXCvh5X5w0"
+     :novelty "An argument that design and engineering are and should be closely tied together"}})
 
 (defn refs->content [refs]
   (into [::box]
