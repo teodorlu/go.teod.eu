@@ -123,4 +123,4 @@
     [:div {:style {:height "15px"}}]
     (rounded principles)
     [:div {:style {:height "15px"}}]
-    (rounded/rounded (rebase-to-rounded linkroll))]))
+    (rounded/rounded-legacy (rebase-to-rounded linkroll))]))

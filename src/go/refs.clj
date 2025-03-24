@@ -35,17 +35,19 @@
 (require '[go.rounded :as rounded])
 
 (defn motivation->content [motivation]
-  [::rounded/vbox
-   (into [::rounded/text
-          [::rounded/core "Why?"]]
-         motivation)])
+  [::rounded/bordered
+   [::rounded/vbox
+    (into [::rounded/text
+           [::rounded/core "Why?"]]
+          motivation)]])
 
 (defn refs->content [refs]
-  (into [::rounded/vbox]
-        (for [{:keys [title author year source novelty]} (sort-by :title refs)]
-          [::rounded/text [::rounded/link source title]
-           (str "(" year ", " author ")")
-           novelty])))
+  [::rounded/bordered
+   (into [::rounded/vbox]
+         (for [{:keys [title author year source novelty]} (sort-by :title refs)]
+           [::rounded/text [::rounded/link source title]
+            (str "(" year ", " author ")")
+            novelty]))])
 
 (comment
   [(refs->content my-refs)
@@ -55,9 +57,10 @@
 (require '[go.path :as path])
 
 (defn navitation->content [navigation]
-  (into [::rounded/hbox]
-        (for [{:keys [root path text]} navigation]
-          [::rounded/text [::rounded/link (str root path) text]])))
+  [::rounded/bordered
+   (into [::rounded/hbox]
+         (for [{:keys [root path text]} navigation]
+           [::rounded/text [::rounded/link (str root path) text]]))])
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; HTTP HANDLER
@@ -65,13 +68,13 @@
 (require 'hiccup.page)
 
 (def ENGINEERING-FOR-VARIATION
-  (rounded/rounded
+  [::rounded/bordered
    [::rounded/hbox
     [::rounded/text
      [::rounded/core "ENGINEERING FOR VARIATION"]
      "Space for variation is a design constraint."
      "Science 🌀 Art"
-     "Engineering 🌀 Design"]]))
+     "Engineering 🌀 Design"]]])
 
 (defn view [_]
   (hiccup.page/html5
@@ -82,12 +85,13 @@
        [:title "exploring taste 🌀 engineering art"]
        [:meta {:charset "utf-8"}]
        [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
-      [:body {:style {:margin 0 :padding "15px"}}
-       ENGINEERING-FOR-VARIATION
-       [:div {:style {:height "15px"}}]
-       (rounded/rounded (motivation->content motivation))
-       [:div {:style {:height "15px"}}]
-       (rounded/rounded (refs->content my-refs))
-       [:div {:style {:height "15px"}}]
-       (rounded/rounded (navitation->content path/navigation))
-       ]))
+      (rounded/rounded
+       [:body {:style {:margin 0 :padding "15px"}}
+        ENGINEERING-FOR-VARIATION
+        [:div {:style {:height "15px"}}]
+        (-> motivation motivation->content)
+        [:div {:style {:height "15px"}}]
+        (-> my-refs refs->content)
+        [:div {:style {:height "15px"}}]
+        (-> path/navigation navitation->content)
+        ])))
