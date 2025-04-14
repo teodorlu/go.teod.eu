@@ -2,11 +2,6 @@
   "Start collecting my own references. For now, just link. In the future, consider
   storing PDFs locally.")
 
-(def motivation
-  ["We learn collectively by briding knowledge."
-   "We bridge knowledge with explicit references."
-   "Therefore, I refer to my sources."])
-
 (def my-refs
   #{{:title "Creative Computation"
      :author "Jack Rusher"
@@ -29,17 +24,38 @@
      :novelty "Makes a case for caring about and experimenting with design"}
     })
 
+(def the-why
+  {:title "Why references?"
+   :lines
+   ["We learn collectively by briding knowledge."
+    "We bridge knowledge with explicit references."
+    "Therefore, I refer to my sources."]})
+
+(def technology-leadership
+  {:title "Technology leadership ..."
+   :lines
+   ["→ sets a strategic vision."
+    "→ scopes tactical work."
+    "→ sets the bar for quality."]})
+
+(def the-how
+  {:title "References - How?"
+   :lines
+   ["objective → reify a trust network of references."
+    "near goal 1 → promote Christopher Alexander's *liveness*"
+    "quality → so that its pieces are beautify, and working the pieces is a joy."]})
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; PRESENTATION
 
 (require '[go.rounded :as rounded])
 
-(defn motivation->content [motivation]
+(defn title+lines->content [{:keys [title lines]}]
   [::rounded/bordered
    [::rounded/vbox
     (into [::rounded/text
-           [::rounded/core "Why?"]]
-          motivation)]])
+           [::rounded/core title]]
+          lines)]])
 
 (defn refs->content [refs]
   [::rounded/bordered
@@ -48,11 +64,6 @@
            [::rounded/text [::rounded/link source title]
             (str "(" year ", " author ")")
             novelty]))])
-
-(comment
-  [(refs->content my-refs)
-   motivation]
-  )
 
 (require '[go.path :as path])
 
@@ -78,20 +89,23 @@
 
 (defn view [_]
   (hiccup.page/html5
-      {:lang "en" :style {:min-height "100%"
-                          :color "white"
-                          :background-color "black"}}
-      [:head
-       [:title "exploring taste 🌀 engineering art"]
-       [:meta {:charset "utf-8"}]
-       [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
-      (rounded/rounded
-       [:body {:style {:margin 0 :padding "15px"}}
-        ENGINEERING-FOR-VARIATION
+   {:lang "en" :style {:min-height "100%"
+                       :color "white"
+                       :background-color "black"}}
+   [:head
+    [:title "exploring taste 🌀 engineering art"]
+    [:meta {:charset "utf-8"}]
+    [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
+   (rounded/rounded
+    [:body {:style {:margin 0 :padding "15px"}}
+     (interpose
+      [:div {:style {:height "15px"}}]
+      [ENGINEERING-FOR-VARIATION
+       (interpose
         [:div {:style {:height "15px"}}]
-        (-> motivation motivation->content)
-        [:div {:style {:height "15px"}}]
-        (-> my-refs refs->content)
-        [:div {:style {:height "15px"}}]
-        (-> path/navigation navitation->content)
-        ])))
+        (map title+lines->content
+             [the-why
+              technology-leadership
+              the-how]))
+       (refs->content my-refs)
+       (navitation->content path/navigation)])])))
