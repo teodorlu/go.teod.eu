@@ -1,6 +1,5 @@
 (ns go.rounded)
 
-(require 'hiccup.page)
 (require '[clojure.walk :refer [postwalk]])
 
 (defn el-pred [tag]
