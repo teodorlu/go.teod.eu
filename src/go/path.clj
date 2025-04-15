@@ -9,7 +9,7 @@
 (def bretroulette "/bretroulette")
 (def notes "/notes")
 (def flexing "/flexing")
-(def c2 "/c2")
+(def core2 "/core2")
 (def refs "/refs")
 (def refs2 "/refs2")
 
@@ -26,4 +26,4 @@
    {:root tgo :path refs2 :text "refs2"}
    {:root tgo :path "/notes" :text "Notes"}
    {:root tgo :path "/flexing" :text "Flexing"}
-   {:root tgo :path c2 :text "2"}])
+   {:root tgo :path core2 :text "core2"}])

@@ -245,7 +245,7 @@
         [path/bretroulette #'bretroulette-page]
         [path/notes #'notes]
         [path/flexing #'flexing]
-        [path/c2 #'go.core2/view]
+        [path/core2 #'go.core2/view]
         [path/refs #'go.refs/view]
         [path/refs2 #'go.refs2/view]
         ]
