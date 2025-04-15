@@ -11,6 +11,7 @@
 (def flexing "/flexing")
 (def c2 "/c2")
 (def refs "/refs")
+(def refs2 "/refs2")
 
 ;; roots
 (def tplay "https://play.teod.eu")
@@ -22,6 +23,7 @@
    {:root tgo :path "/" :text "go.teod.eu"}
    {:root tgo :path "/bretroulette" :text "Bret Roulette"}
    {:root tgo :path refs :text "refs"}
+   {:root tgo :path refs2 :text "refs2"}
    {:root tgo :path "/notes" :text "Notes"}
    {:root tgo :path "/flexing" :text "Flexing"}
    {:root tgo :path c2 :text "2"}])
