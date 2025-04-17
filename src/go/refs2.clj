@@ -14,6 +14,15 @@
     "To change yourself, change what influences you."
     "Managing your references is taking resposibility for your influences."]})
 
+(def schema
+  {:text/title {}
+   :text/author {}
+   :text/published {}
+   :text/link {:doc "The text source, or a different \"authorative\"-source"}
+   :text/comments {:doc "Comments on this text"}
+   :comment/body {}
+   })
+
 (def refs-design-and-quality
   {:title "Design and quality"
    :subtitle "On how to make things, what makes things good, and how to make good things."
@@ -21,22 +30,25 @@
    #{{:text/title "Creative Computation"
       :text/author "Jack Rusher"
       :text/published "2019"
-      :text/source "https://www.youtube.com/watch?v=TeXCvh5X5w0"
-      :novelty "An argument that design and engineering are and should be closely connected"}
+      :text/link "https://www.youtube.com/watch?v=TeXCvh5X5w0"
+      :text/comments
+      #{{:comment/body "An argument that design and engineering are and should be closely connected"}}}
      {:text/title "Designerly ways of knowing"
       :text/author "Nigel Cross"
       :text/published "1982"
-      :text/source "https://oro.open.ac.uk/39253/8/Designerly%20Ways%20of%20Knowing%20DS.pdf"
-      :novelty "Explains what design IS"}
+      :text/link "https://oro.open.ac.uk/39253/8/Designerly%20Ways%20of%20Knowing%20DS.pdf"
+      :text/comments
+      #{{:comment/body "Explains what design IS"}}}
      {:text/title "Taste"
       :text/author "Peter Seibel"
       :text/published "2015"
-      :text/source "https://gigamonkeys.com/taste/"}
+      :text/link "https://gigamonkeys.com/taste/"}
      {:text/title "The niche design zine [Public draft]"
       :text/author "Itay Dreyfus"
       :text/published "2025"
-      :text/source "https://docs.google.com/document/d/1Qjoy-JYwS6GKXaa7O828lT5kwfycDr9RHKrDCG2dXuk/edit?tab=t.0"
-      :novelty "Makes a case for caring about and experimenting with design"}
+      :text/link "https://docs.google.com/document/d/1Qjoy-JYwS6GKXaa7O828lT5kwfycDr9RHKrDCG2dXuk/edit?tab=t.0"
+      :text/comments
+      #{{:comment/body "Makes a case for caring about and experimenting with design"}}}
      }})
 
 (def refs-clojure-europe-easter-2025
@@ -46,8 +58,8 @@
       :text/author "Homer"
       :text/published "8th century BC"
       :text/comments
-      #{{:ref/by "Matthias"
-         :ref/commentary "If you can find good modern translations, and can deal with a story written in verse, they are great."}}}
+      #{{:comment/author "Matthias"
+         :comment/body "If you can find good modern translations, and can deal with a story written in verse, Homer's texts are great."}}}
      {:text/title "The Odyssey"
       :text/author "Homer"
       :text/published "8th century BC"}}})
@@ -61,10 +73,12 @@
           [::rounded/text
            [::rounded/core title]
            subtitle]]
-         (for [{:as text :keys [novelty]} (sort-by :text/title refs)]
-           [::rounded/text [::rounded/link (:text/source text) (:text/title text)]
-            (str "(" (:text/published text) ", " (:text/author text) ")")
-            novelty]))])
+         (for [text (sort-by :text/title refs)]
+           (into
+            [::rounded/text [::rounded/link (:text/link text) (:text/title text)]
+             (str "(" (:text/published text) ", " (:text/author text) ")")]
+            (for [comment (:text/comments text)]
+              (:comment/body comment)))))])
 
 (defn navitation->content [navigation]
   [::rounded/bordered
@@ -94,6 +108,7 @@
       [:div {:style {:height "15px"}}]
       [(title+lines->content why)
        (refs->content refs-design-and-quality)
+       (refs->content refs-clojure-europe-easter-2025)
        (navitation->content path/navigation)])])))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
