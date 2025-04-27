@@ -1,17 +1,17 @@
 (ns go.path)
 
 ;; paths
-(def index "/")
 (def add-weeknote "/add-weeknote")
 (def add-weeknote-prompt "/add-weeknote-prompt")
-(def view-weeknotes (when-let [code (System/getenv "WEEKNOTE_ACCESSCODE")] (str "/" code)))
-(def play-teod-eu "https://play.teod.eu")
 (def bretroulette "/bretroulette")
-(def notes "/notes")
-(def flexing "/flexing")
 (def core2 "/core2")
+(def flexing "/flexing")
+(def index "/")
+(def notes "/notes")
+(def play-teod-eu "https://play.teod.eu")
 (def refs "/refs")
 (def refs2 "/refs2")
+(def view-weeknotes (when-let [code (System/getenv "WEEKNOTE_ACCESSCODE")] (str "/" code)))
 
 ;; roots
 (def tplay "https://play.teod.eu")
