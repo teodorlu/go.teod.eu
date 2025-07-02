@@ -7,6 +7,7 @@
 (def core2 "/core2")
 (def flexing "/flexing")
 (def index "/")
+(def mathy "/mathy")
 (def notes "/notes")
 (def play-teod-eu "https://play.teod.eu")
 (def refs "/refs")

@@ -112,7 +112,13 @@
        (map :text)
        (str/join "\n---\n")
        println)
+
+  (keys @framework/state)
+  (-> @framework/state :weeknotes count)
+
   ,)
+
+
 
 (defn add-weeknote [req]
   (let [theme theme-blumoon]
