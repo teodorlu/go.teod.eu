@@ -17,7 +17,7 @@
   org.clj-commons/hickory {:mvn/version "0.7.5"}
   org.scicloj/noj {:mvn/version "2-beta16"}
   ring/ring-core {:mvn/version "1.13.0"}
-  ;; uncomplicate/neanderthal {:mvn/version "0.54.0"}
+  uncomplicate/neanderthal {:mvn/version "0.54.0"}
   }
  :aliases
  {:nextjournal/garden {:exec-fn go.core/start!}}}
