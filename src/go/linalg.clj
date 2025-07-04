@@ -33,3 +33,33 @@
    (mm
     ones-row3
     (mm k ones-col3)))
+
+
+(defn m->table [m]
+  (into [:table]
+        (for [row m]
+          (into [:tr]
+                (for [cell row]
+                  [:td cell])))))
+
+#_ (m->table (scalar->matrix 18.0))
+#_ (m->table k)
+
+(require 'hiccup.page)
+
+(defn demo [req]
+  (hiccup.page/html5
+   {:lang "en" :style {:min-height "100%"
+                       :color "white"
+                       :background-color "black"}}
+   [:head
+    [:title "exploring taste 🌀 engineering art"]
+    [:meta {:charset "utf-8"}]
+    [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]]
+   [:body {:style {:margin 0 :padding "15px"}}
+    [:p "Hvis om atte Neanderthal funker, bør det komme tabeller her."]
+    [:p "1x1, skalaren 18."]
+    (m->table (scalar->matrix 18.0))
+    [:p "3x3, noen verdier."]
+    (m->table k)
+    ]))

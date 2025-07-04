@@ -238,7 +238,8 @@
             (map #(view-weeknote theme %))
             (interpose [:hr]))]])))
 
-(require 'go.notes 'go.flexing 'go.core2 'go.refs 'go.refs2)
+(require 'go.notes 'go.flexing 'go.core2 'go.refs 'go.refs2
+         'go.linalg)
 (defn notes [_] go.notes/view)
 (defn flexing [_] go.flexing/view)
 
@@ -254,6 +255,7 @@
         [path/core2 #'go.core2/view]
         [path/refs #'go.refs/view]
         [path/refs2 #'go.refs2/view]
+        [path/linalg #'go.linalg/demo]
         ]
        (filter first)
        (vec)))
