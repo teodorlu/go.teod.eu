@@ -238,22 +238,23 @@
             (map #(view-weeknote theme %))
             (interpose [:hr]))]])))
 
-(require 'go.notes 'go.flexing 'go.core2 'go.refs 'go.refs2)
+(require 'go.notes 'go.flexing 'go.core2 'go.refs 'go.refs2 'go.beautiful)
 (defn notes [_] go.notes/view)
 (defn flexing [_] go.flexing/view)
 
 (def routes
-  (->> [[path/index #'principles-page]
-        [path/add-weeknote {:get #'write-weeknote-fragment
-                            :post #'add-weeknote}]
-        [path/add-weeknote-prompt #'add-weeknote-prompt]
-        [path/view-weeknotes #'weeknotes]
-        [path/bretroulette #'bretroulette-page]
-        [path/notes #'notes]
-        [path/flexing #'flexing]
-        [path/core2 #'go.core2/view]
-        [path/refs #'go.refs/view]
-        [path/refs2 #'go.refs2/view]]
+  (->> (concat [[path/index #'principles-page]
+                [path/add-weeknote {:get #'write-weeknote-fragment
+                                    :post #'add-weeknote}]
+                [path/add-weeknote-prompt #'add-weeknote-prompt]
+                [path/view-weeknotes #'weeknotes]
+                [path/bretroulette #'bretroulette-page]
+                [path/notes #'notes]
+                [path/flexing #'flexing]
+                [path/core2 #'go.core2/view]
+                [path/refs #'go.refs/view]
+                [path/refs2 #'go.refs2/view]]
+               go.beautiful/ring-routes)
        (filter first)
        (vec)))
 
