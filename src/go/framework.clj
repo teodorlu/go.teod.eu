@@ -1,5 +1,6 @@
 (ns go.framework
   (:require
+   [clj-simple-stats.core]
    [duratom.core :refer [duratom]]
    [hiccup.page :refer [html5 include-css include-js]]
    [hiccup2.core :as h]
@@ -107,7 +108,8 @@
 
   When `routes` is a var, resolves it on every request, to allow interactive development."
   [routes opts]
-  (let [reitit-opts {:middleware [wrap-content-type
+  (let [reitit-opts {:middleware [(fn [h] (clj-simple-stats.core/wrap-stats h {:db-path (str (System/getenv "GARDEN_STORAGE") "/clj_simple_stats.duckdb")}))
+                                  wrap-content-type
                                   (fn [h] (wrap-session h {:store (memory-store session)}))
                                   (fn [h] (wrap-resource h "/"))
                                   wrap-params
