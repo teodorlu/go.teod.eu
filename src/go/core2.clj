@@ -61,13 +61,13 @@
 (require 'hiccup.page)
 (require '[clojure.walk :refer [postwalk]])
 
-(defn el-pred [tag]
+(defn element-matcher [tag]
   (fn [el] (and (vector? el)
                 (= tag (first el)))))
-(def core? (el-pred ::core))
-(def text? (el-pred ::text))
-(def box? (el-pred ::box))
-(def link? (el-pred ::link))
+(def core? (element-matcher ::core))
+(def text? (element-matcher ::text))
+(def box? (element-matcher ::box))
+(def link? (element-matcher ::link))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; designs
