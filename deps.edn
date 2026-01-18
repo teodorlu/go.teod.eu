@@ -1,24 +1,24 @@
 {:paths
  ["src" "test" "eksperimentelt" "resources"]
  :deps
- {babashka/fs {:mvn/version "0.5.26"}
+ {babashka/fs {:mvn/version "0.5.30"}
   com.cnuernber/charred {:mvn/version "1.037"}
   com.nextjournal/beholder {:mvn/version "1.0.3"}
   duratom/duratom {:mvn/version "0.5.9"}
-  http-kit/http-kit {:mvn/version "2.8.0"}
-  io.github.nextjournal/clerk {:mvn/version "0.18.1142"}
+  http-kit/http-kit {:mvn/version "2.9.0-beta3"}
+  io.github.nextjournal/clerk {:mvn/version "0.18.1158"}
   io.github.nextjournal/garden-email {:git/sha "e312764cfaa31e8e47f5f2c0207dcbed67873187"}
   io.github.nextjournal/garden-id {:git/sha "7d19e5400b9ac9082e444f2c0e96d9b5e616a483"}
-  io.github.tonsky/clj-simple-stats {:mvn/version "1.0.0"}
+  io.github.tonsky/clj-simple-stats {:mvn/version "1.1.0"}
   lambdaisland/kaocha {:mvn/version "1.91.1392"}
-  metosin/reitit {:mvn/version "0.9.1"}
-  no.cjohansen/lookup {:mvn/version "2025.04.12"}
-  no.cjohansen/replicant {:mvn/version "2025.06.21"}
+  metosin/reitit {:mvn/version "0.10.0"}
+  no.cjohansen/lookup {:mvn/version "2025.12.1"}
+  no.cjohansen/replicant {:mvn/version "2025.12.1"}
   org.babashka/http-client {:mvn/version "0.4.23"}
   org.clj-commons/hickory {:mvn/version "0.7.7"}
   org.clojure/data.xml {:mvn/version "0.0.8"}
   org.scicloj/noj {:mvn/version "2-beta16"}
-  ring/ring-core {:mvn/version "1.14.2"}
+  ring/ring-core {:mvn/version "1.15.3"}
   uncomplicate/neanderthal {:mvn/version "0.55.0"}
   }
  :aliases
